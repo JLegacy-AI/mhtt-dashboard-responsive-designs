@@ -41,6 +41,19 @@ function isUsernameAlreadyRegistered($username) {
     return $count > 0; // Returns true if username is already registered
 }
 
+// Function to check login credentials using the global $conn variable
+function checkLogin($username, $password) {
+    global $conn;
+
+    $stmt = $conn->prepare("SELECT * FROM users WHERE (username = ? OR email = ?) AND password = ?");
+    $stmt->bind_param("sss", $username,$username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $stmt->close();
+    return $user; // Returns user data if login is valid, otherwise returns null
+}
+
 
 
 ?>
