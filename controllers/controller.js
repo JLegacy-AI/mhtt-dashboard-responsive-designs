@@ -95,7 +95,10 @@ $(document).ready(function () {
                   background: "#4CAF50",
                 },
               }).showToast();
-              console.log(response["user"]);
+              setTimeout(() => {
+                window.location = `./dashboard/projects/index.php?username=${response["user"]["username"]}`;
+                console.log("Here");
+              }, 1000);
             }
           },
           error: function (error) {
@@ -118,5 +121,54 @@ $(document).ready(function () {
 
       $(form).addClass("was-validated");
     });
+  });
+  /**
+   * Initiate Bootstrap validation check For Login
+   */
+  $("#project-add-form").each(function (index, form) {
+    console.log(form);
+    $(form).submit(function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      } else {
+        event.preventDefault();
+      }
+
+      $(form).addClass("was-validated");
+    });
+  });
+
+  /**
+   * Making Headings or Content Editable
+   */
+  $(".editableButton").click(function () {
+    var targetValue = $(this).data("target");
+    if ($(targetValue).attr("contenteditable")) {
+      $(targetValue).attr("contenteditable", "false");
+      $(this).html(`<i class='bx bx-edit fs-5 text-primary'></i>`);
+    } else {
+      $(this).html(`<i class="bx bx-check-square text-success fs-5"></i>`);
+      $(targetValue).attr("contenteditable", "true");
+      Toastify({
+        text: "Click ✅ Save Changes",
+        className: "info",
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#f5f5f5",
+          color: "black",
+        },
+      }).showToast();
+    }
+  });
+
+  /**
+   * Initiate Datatables using jQuery
+   */
+  $(".datatable").each(function () {
+    new simpleDatatables.DataTable(this);
   });
 });

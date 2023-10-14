@@ -26,7 +26,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -1219,4 +1219,21 @@ h6 {
   text-align: center;
   font-size: 13px;
   color: #012970;
+}
+/*--------------------------------------------------------------
+# Others
+--------------------------------------------------------------*/
+
+.outline-none {
+  outline: none;
+}
+
+.images-overlay:hover {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+@media (max-width: 575px) {
+  .images-overlay {
+    width: 95% !important;
+  }
 }
