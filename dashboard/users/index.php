@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <title>User | MHTT</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
@@ -28,126 +28,131 @@
       href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css"
       rel="stylesheet"
     />
-    <link href="../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link
+      href="../../assets/vendor/boxicons/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <link href="../../assets/vendor/quill/quill.snow.css" rel="stylesheet" />
     <link href="../../assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
     <link href="../../assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="../../assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+    <link
+      href="../../assets/vendor/simple-datatables/style.css"
+      rel="stylesheet"
+    />
 
-    <!-- Template Main CSS File -->
+    <!-- Main CSS File -->
     <link href="../../assets/css/style.css" rel="stylesheet" />
-</head>
-<body>
+  </head>
+  <body>
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
       <div class="d-flex align-items-center justify-content-between">
-          <a href="index.html" class="logo d-flex align-items-center">
-              <img src="../../assets/img/logo.png" alt="" />
+        <a href="index.html" class="logo d-flex align-items-center">
+          <img src="../../assets/img/logo.png" alt="" />
           <span class="d-none d-lg-block">MHTT</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-    <!-- End Logo -->
-    
-    <div class="search-bar">
+      </div>
+      <!-- End Logo -->
+
+      <div class="search-bar">
         <form
           class="search-form d-flex align-items-center"
           method="POST"
           action="#"
-          >
+        >
           <input
-          type="text"
-          name="query"
-          placeholder="Search"
-          title="Enter search keyword"
+            type="text"
+            name="query"
+            placeholder="Search"
+            title="Enter search keyword"
           />
           <button type="submit" title="Search">
-              <i class="bi bi-search"></i>
+            <i class="bi bi-search"></i>
           </button>
         </form>
       </div>
       <!-- End Search Bar -->
 
       <nav class="header-nav ms-auto">
-          <ul class="d-flex align-items-center">
-              <li class="nav-item d-block">
-                  <a class="nav-link nav-icon search-bar-toggle" href="#">
-                      <i class="bi bi-search"></i>
-                    </a>
-                </li>
-                <!-- End Search Icon-->
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span> </a
+        <ul class="d-flex align-items-center">
+          <li class="nav-item d-block">
+            <a class="nav-link nav-icon search-bar-toggle" href="#">
+              <i class="bi bi-search"></i>
+            </a>
+          </li>
+          <!-- End Search Icon-->
+
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-bell"></i>
+              <span class="badge bg-primary badge-number">4</span> </a
             ><!-- End Notification Icon -->
-            
+
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
-              >
-              
+            >
               <li class="dropdown-header">
-                  You have 4 new notifications
-                  <a href="#"
+                You have 4 new notifications
+                <a href="#"
                   ><span class="badge rounded-pill bg-primary p-2 ms-2"
-                  >View all</span
+                    >View all</span
                   ></a
                 >
-            </li>
+              </li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
-              
+
               <li class="notification-item">
                 <i class="bi bi-exclamation-circle text-warning"></i>
                 <div>
-                    <h4>Lorem Ipsum</h4>
+                  <h4>Lorem Ipsum</h4>
                   <p>Quae dolorem earum veritatis oditseno</p>
                   <p>30 min. ago</p>
                 </div>
-            </li>
-            
-            <li>
+              </li>
+
+              <li>
                 <hr class="dropdown-divider" />
-            </li>
+              </li>
 
               <li class="notification-item">
                 <i class="bi bi-x-circle text-danger"></i>
                 <div>
-                    <h4>Atque rerum nesciunt</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>1 hr. ago</p>
+                  <h4>Atque rerum nesciunt</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>1 hr. ago</p>
                 </div>
               </li>
-              
+
               <li>
                 <hr class="dropdown-divider" />
-            </li>
-            
-            <li class="notification-item">
+              </li>
+
+              <li class="notification-item">
                 <i class="bi bi-check-circle text-success"></i>
                 <div>
-                    <h4>Sit rerum fuga</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>2 hrs. ago</p>
+                  <h4>Sit rerum fuga</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>2 hrs. ago</p>
                 </div>
-            </li>
-            
-            <li>
+              </li>
+
+              <li>
                 <hr class="dropdown-divider" />
               </li>
-              
+
               <li class="notification-item">
-                  <i class="bi bi-info-circle text-primary"></i>
+                <i class="bi bi-info-circle text-primary"></i>
                 <div>
                   <h4>Dicta reprehenderit</h4>
                   <p>Quae dolorem earum veritatis oditseno</p>
                   <p>4 hrs. ago</p>
                 </div>
-            </li>
+              </li>
 
-            <li>
+              <li>
                 <hr class="dropdown-divider" />
               </li>
               <li class="dropdown-footer">
@@ -158,59 +163,61 @@
           </li>
           <!-- End Notification Nav -->
 
-        </li>
           <!-- End Messages Nav -->
 
           <li class="nav-item dropdown pe-3">
             <a
-            class="nav-link nav-profile d-flex align-items-center pe-0"
-            href="#"
-            data-bs-toggle="dropdown"
+              class="nav-link nav-profile d-flex align-items-center pe-0"
+              href="#"
+              data-bs-toggle="dropdown"
             >
-            <img
-            src="../../assets/img/profile-img.jpg"
-            alt="Profile"
-            class="rounded-circle"
-            />
-            <span class="d-none d-md-block dropdown-toggle ps-2"
+              <img
+                src="../../assets/img/profile-img.jpg"
+                alt="Profile"
+                class="rounded-circle"
+              />
+              <span class="d-none d-md-block dropdown-toggle ps-2"
                 >K. Anderson</span
               > </a
-              ><!-- End Profile Iamge Icon -->
+            ><!-- End Profile Iamge Icon -->
 
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
             >
               <li class="dropdown-header">
-                  <h6>Kevin Anderson</h6>
-            </li>
-            <li>
-                <hr class="dropdown-divider" />
-            </li>
-
-            <li>
-                <a
-                class="dropdown-item d-flex align-items-center"
-                href="users-profile.html"
-                >
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-            </a>
-        </li>
-            <li>
-                <hr class="dropdown-divider" />
-            </li>
-
-            <li>
-                <hr class="dropdown-divider" />
-            </li>
-            
+                <h6>Kevin Anderson</h6>
+              </li>
               <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                
-                <li>
-                    <a class="dropdown-item d-flex align-items-center" href="../../">
-                        <i class="bi bi-box-arrow-right"></i>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li>
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  href="users-profile.html"
+                >
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li>
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  href="../../"
+                >
+                  <i class="bi bi-box-arrow-right"></i>
                   <span>Sign Out</span>
                 </a>
               </li>
@@ -219,68 +226,67 @@
           </li>
           <!-- End Profile Nav -->
         </ul>
-    </nav>
-    <!-- End Icons Navigation -->
-</header>
-<!-- End Header -->
- 
-<!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-    <ul class="sidebar-nav" id="sidebar-nav">
+      </nav>
+      <!-- End Icons Navigation -->
+    </header>
+    <!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+      <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-heading">Pages</li>
-        
+
         <li class="nav-item">
-            <a class="nav-link collapsed" href="../projects/">
-                <i class='bx bx-map-pin'></i>
-                <span>Project</span>
-            </a>
+          <a class="nav-link collapsed" href="../projects/">
+            <i class="bx bx-map-pin"></i>
+            <span>Project</span>
+          </a>
         </li>
         <!-- End Projects Page Nav -->
-        
+
         <li class="nav-item">
-            <a class="nav-link collapsed" href="../users/">
-                <i class='bx bx-user'></i>
-                <span>Users</span>
-            </a>
+          <a class="nav-link collapsed" href="../users/">
+            <i class="bx bx-user"></i>
+            <span>Users</span>
+          </a>
         </li>
         <!-- End Users Page Nav -->
-        
+
         <li class="nav-item">
-            <a class="nav-link collapsed" href="../photos/">
-                <i class='bx bx-photo-album'></i>
-                <span>Photos</span>
-            </a>
+          <a class="nav-link collapsed" href="../photos/">
+            <i class="bx bx-photo-album"></i>
+            <span>Photos</span>
+          </a>
         </li>
         <!-- End Photos Page Nav -->
-        
+
         <li class="nav-item">
-            <a class="nav-link collapsed" href="../map/">
-                <i class='bx bx-map-alt'></i>
-                <span>Maps</span>
-            </a>
+          <a class="nav-link collapsed" href="../map/">
+            <i class="bx bx-map-alt"></i>
+            <span>Maps</span>
+          </a>
         </li>
         <!-- End Maps Page Nav -->
-        
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="../../">
-                <i class='bx bx-arrow-from-right'></i>
-                <span>Logout</span>
-            </a>
-        </li>
-    <!-- End Logout Page Nav -->
-    </ul>
-</aside>
-    <!-- End Sidebar-->
 
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="../../">
+            <i class="bx bx-arrow-from-right"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+        <!-- End Logout Page Nav -->
+      </ul>
+    </aside>
+    <!-- End Sidebar-->
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <div class="d-flex justify-content-between ">
-            <h1>Users</h1>
-            <button type="button" class="btn btn-primary">
-                <i class='bx bx-plus'></i>
-                Add User
-            </button>
+        <div class="d-flex justify-content-between">
+          <h1>Users</h1>
+          <button type="button" class="btn btn-primary">
+            <i class="bx bx-plus"></i>
+            Add User
+          </button>
         </div>
         <nav>
           <ol class="breadcrumb">
@@ -303,23 +309,35 @@
                     <a class="icon" href="#" data-bs-toggle="dropdown"
                       ><i class="bi bi-three-dots"></i
                     ></a>
-                      <ul
-                        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                      >
-                        <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                        <li><a class="dropdown-item" href="#">Delete</a></li>
-                      </ul>
+                    <ul
+                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                    >
+                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
+                      <li><a class="dropdown-item" href="#">Delete</a></li>
+                    </ul>
                   </div>
 
                   <div class="card-body">
-                    <h5 class="card-title">Last Activity <span>| Sep 1, 3:52 PM</span></h5>
-                    <div class="d-flex align-content-center ">
-                        <i class='fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center  align-items-center'></i>
-                        <h1 class="card-title fs-1">Jamal <span>Muhammad</span></h1>
+                    <h5 class="card-title">
+                      Last Activity <span>| Sep 1, 3:52 PM</span>
+                    </h5>
+                    <div class="d-flex align-content-center">
+                      <i
+                        class="fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center align-items-center"
+                      ></i>
+                      <h1 class="card-title fs-1">
+                        Jamal <span>Muhammad</span>
+                      </h1>
                     </div>
                     <div>
-                        <h5 class="card-title m-0 p-0"><i class='bx bx-phone'></i> <span>| +92 307 7923020</span></h5>
-                        <h5 class="card-title m-0 p-0"><i class='bx bx-envelope' ></i> <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span></h5>
+                      <h5 class="card-title m-0 p-0">
+                        <i class="bx bx-phone"></i>
+                        <span>| +92 307 7923020</span>
+                      </h5>
+                      <h5 class="card-title m-0 p-0">
+                        <i class="bx bx-envelope"></i>
+                        <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span>
+                      </h5>
                     </div>
                   </div>
                 </div>
@@ -340,14 +358,26 @@
                   </div>
 
                   <div class="card-body">
-                    <h5 class="card-title">Last Activity <span>| Sep 1, 3:52 PM</span></h5>
-                    <div class="d-flex align-content-center ">
-                        <i class='fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center  align-items-center'></i>
-                        <h1 class="card-title fs-1">Jamal <span>Muhammad</span></h1>
+                    <h5 class="card-title">
+                      Last Activity <span>| Sep 1, 3:52 PM</span>
+                    </h5>
+                    <div class="d-flex align-content-center">
+                      <i
+                        class="fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center align-items-center"
+                      ></i>
+                      <h1 class="card-title fs-1">
+                        Jamal <span>Muhammad</span>
+                      </h1>
                     </div>
                     <div>
-                        <h5 class="card-title m-0 p-0"><i class='bx bx-phone'></i> <span>| +92 307 7923020</span></h5>
-                        <h5 class="card-title m-0 p-0"><i class='bx bx-envelope' ></i> <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span></h5>
+                      <h5 class="card-title m-0 p-0">
+                        <i class="bx bx-phone"></i>
+                        <span>| +92 307 7923020</span>
+                      </h5>
+                      <h5 class="card-title m-0 p-0">
+                        <i class="bx bx-envelope"></i>
+                        <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span>
+                      </h5>
                     </div>
                   </div>
                 </div>
@@ -361,33 +391,43 @@
                     <ul
                       class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                     >
-
                       <li><a class="dropdown-item" href="./edit/">Edit</a></li>
                       <li><a class="dropdown-item" href="#">Delete</a></li>
-
                     </ul>
                   </div>
 
                   <div class="card-body">
-                    <h5 class="card-title">Last Activity <span>| Sep 1, 3:52 PM</span></h5>
-                    <div class="d-flex align-content-center ">
-                        <i class='fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center  align-items-center'></i>
-                        <h1 class="card-title fs-1">Jamal <span>Muhammad</span></h1>
+                    <h5 class="card-title">
+                      Last Activity <span>| Sep 1, 3:52 PM</span>
+                    </h5>
+                    <div class="d-flex align-content-center">
+                      <i
+                        class="fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center align-items-center"
+                      ></i>
+                      <h1 class="card-title fs-1">
+                        Jamal <span>Muhammad</span>
+                      </h1>
                     </div>
                     <div>
-                        <h5 class="card-title m-0 p-0"><i class='bx bx-phone'></i> <span>| +92 307 7923020</span></h5>
-                        <h5 class="card-title m-0 p-0"><i class='bx bx-envelope' ></i> <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span></h5>
+                      <h5 class="card-title m-0 p-0">
+                        <i class="bx bx-phone"></i>
+                        <span>| +92 307 7923020</span>
+                      </h5>
+                      <h5 class="card-title m-0 p-0">
+                        <i class="bx bx-envelope"></i>
+                        <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span>
+                      </h5>
                     </div>
                   </div>
                 </div>
               </div>
-
+            </div>
+          </div>
         </div>
       </section>
     </main>
     <!-- End #main -->
 
-    
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
       <div class="copyright">
@@ -406,22 +446,12 @@
       ><i class="bi bi-arrow-up-short"></i
     ></a>
 
-
-
-
-
-
-
-
-
-    
-    
     <!-- Vendor JS Files -->
     <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/vendor/quill/quill.min.js"></script>
     <script src="../../assets/vendor/tinymce/tinymce.min.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="../../assets/js/main.js"></script>        
-</body>
+    <!-- Main JS File -->
+    <script src="../../assets/js/main.js"></script>
+  </body>
 </html>
