@@ -194,7 +194,7 @@
               <li>
                 <a
                   class="dropdown-item d-flex align-items-center"
-                  href="users-profile.html"
+                  href="../users/edit"
                 >
                   <i class="bi bi-person"></i>
                   <span>My Profile</span>
@@ -283,11 +283,12 @@
       <div class="pagetitle">
         <div class="d-flex justify-content-between">
           <h1>Users</h1>
-          <button type="button" class="btn btn-primary">
+          <button id="addUserToProjectButton" type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#addUser">
             <i class="bx bx-plus"></i>
             Add User
           </button>
         </div>
+                                        
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -446,8 +447,102 @@
       ><i class="bi bi-arrow-up-short"></i
     ></a>
 
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="addUser"
+      tabindex="-1"
+      aria-labelledby="addUserToProjectLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+              Send Invite To User
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              id="user-registration-form"
+              class="row g-3 needs-input-validation"
+              novalidate
+            >
+              <div class="col-md-6 col-12">
+                <label for="firstName" class="form-label">First Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  id="firstName"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please, enter your first name!
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  id="lastName"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please, enter your last name!
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="email" class="form-label">Your Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  id="email"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid Email adddress!
+                </div>
+              </div>
+              <div class="col-12">
+                <button class="btn btn-primary w-100" type="submit">
+                  Send Invite
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Vendor JS Files -->
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
     <script src="../../assets/vendor/quill/quill.min.js"></script>
     <script src="../../assets/vendor/tinymce/tinymce.min.js"></script>
 

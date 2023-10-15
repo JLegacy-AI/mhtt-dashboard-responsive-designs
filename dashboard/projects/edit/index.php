@@ -182,7 +182,7 @@
               data-bs-toggle="dropdown"
             >
               <img
-                src="../../assets/img/profile-img.jpg"
+                src="../../../assets/img/profile-img.jpg"
                 alt="Profile"
                 class="rounded-circle"
               />
@@ -204,7 +204,7 @@
               <li>
                 <a
                   class="dropdown-item d-flex align-items-center"
-                  href="users-profile.html"
+                  href="../../users/edit"
                 >
                   <i class="bi bi-person"></i>
                   <span>My Profile</span>
@@ -372,7 +372,7 @@
                 </button>
               </p>
             </div>
-
+            <!-- Project Users -->
             <div class="row">
               <div class="col-12">
                 <div class="card recent-sales overflow-auto">
@@ -577,9 +577,10 @@
       ><i class="bi bi-arrow-up-short"></i
     ></a>
 
-    <!-- Modals -->
-
+    
     <!-- End Sidebar-->
+    
+    <!-- Modals -->
     <div
       class="modal fade"
       id="addUserToProject"

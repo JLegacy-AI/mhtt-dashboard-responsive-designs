@@ -181,7 +181,7 @@
               data-bs-toggle="dropdown"
             >
               <img
-                src="../../assets/img/profile-img.jpg"
+                src="../../../assets/img/profile-img.jpg"
                 alt="Profile"
                 class="rounded-circle"
               />
@@ -203,7 +203,7 @@
               <li>
                 <a
                   class="dropdown-item d-flex align-items-center"
-                  href="users-profile.html"
+                  href="../../users/edit"
                 >
                   <i class="bi bi-person"></i>
                   <span>My Profile</span>
