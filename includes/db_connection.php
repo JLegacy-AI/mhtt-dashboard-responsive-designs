@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "mhtt_database";
+$dbname = "mhtt-database";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

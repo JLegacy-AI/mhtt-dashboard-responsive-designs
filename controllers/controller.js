@@ -24,7 +24,6 @@ $(document).ready(function () {
           method: "POST",
           data: data,
           success: function (response) {
-            console.log(response);
             if (response["message"]) {
               Toastify({
                 text: response["message"],
@@ -37,6 +36,13 @@ $(document).ready(function () {
                   background: "#4CAF50",
                 },
               }).showToast();
+
+              $("#firstName").val("");
+              $("#lastName").val("");
+              $("#email").val("");
+              $("#phoneNumber").val("");
+              $("#username").val("");
+              $("#password").val("");
             }
           },
           error: function (error) {
@@ -95,9 +101,10 @@ $(document).ready(function () {
                   background: "#4CAF50",
                 },
               }).showToast();
+
               setTimeout(() => {
-                window.location = `./dashboard/projects/index.php?username=${response["user"]["username"]}`;
-                console.log("Here");
+                setCookie("token", JSON.stringify(response["token"]), 1);
+                window.location = `./dashboard/projects/index.php?token=${response["token"]["token"]}`;
               }, 1000);
             }
           },
@@ -117,22 +124,6 @@ $(document).ready(function () {
             }
           },
         });
-      }
-
-      $(form).addClass("was-validated");
-    });
-  });
-  /**
-   * Initiate Bootstrap validation check For Login
-   */
-  $("#project-add-form").each(function (index, form) {
-    console.log(form);
-    $(form).submit(function (event) {
-      if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      } else {
-        event.preventDefault();
       }
 
       $(form).addClass("was-validated");
@@ -171,4 +162,14 @@ $(document).ready(function () {
   $(".datatable").each(function () {
     new simpleDatatables.DataTable(this);
   });
+
+  /**
+   *  Token Authentication
+   */
+  function setCookie(name, value, hours) {
+    var date = new Date();
+    date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+    var expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + "; " + expires + "; path=/";
+  }
 });

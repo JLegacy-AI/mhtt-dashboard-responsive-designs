@@ -1,3 +1,13 @@
+<?php
+  if($_SESSION["token"] == null)
+    header("Location: ../../");
+  include '../../includes/db_functions.php';
+
+  $token = getTokens($_SESSION["token"]);
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -310,13 +320,13 @@
                 </div>
               </div>
               <div class="col-12">
-                <label for="address1" class="form-label">Address 1</label>
+                <label for="addressOne" class="form-label">Address 1</label>
                 <div class="input-group has-validation">
                   <input
                     type="text"
                     name="address"
                     class="form-control"
-                    id="address1"
+                    id="addressOne"
                     placeholder="Project Address 1"
                     required
                   />
@@ -326,13 +336,13 @@
                 </div>
               </div>
               <div class="col-12">
-                <label for="address2" class="form-label">Address 2</label>
+                <label for="addressTwo" class="form-label">Address 2</label>
                 <div class="input-group has-validation">
                   <input
                     type="text"
                     name="address"
                     class="form-control"
-                    id="address2"
+                    id="addressTwo"
                     placeholder="Project Address 2"
                   />
                   <div class="invalid-feedback">
@@ -341,11 +351,11 @@
                 </div>
               </div>
               <div class="col-12">
-                <label for="projectName" class="form-label">City</label>
+                <label for="city" class="form-label">City</label>
                 <div class="input-group has-validation">
                   <input
                     type="text"
-                    name="username"
+                    name="city"
                     class="form-control"
                     id="city"
                     placeholder="Name"
@@ -522,5 +532,6 @@
     <!-- Main JS File -->
     <script src="../../assets/js/main.js"></script>
     <script src="../../controllers/controller.js"></script>
+    <script src="../../controllers/ajaxController.js"></script>
   </body>
 </html>
