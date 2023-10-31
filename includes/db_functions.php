@@ -162,5 +162,31 @@ function getUserByID($id){
     return $user;
 }
 
+function updateUserInformation($id, $column, $value){
+    global $conn;
+    $stmt = $conn->prepare("UPDATE Users SET $column = ? WHERE id = ?");
+    $stmt->bind_param("si", $value, $id);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true; // Project insertion successful
+    } else {
+        $stmt->close();
+        return false; // Project insertion failed
+    }
+}
+
+
+function getProjectByID($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT name, addressOne, addressTwo, city, state, postalCode, user FROM Projects WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $project = $result->fetch_assoc();
+    $stmt->close();
+    return $project;
+}
+
+
 
 ?>

@@ -4,6 +4,9 @@
   if (session_status() == PHP_SESSION_NONE) {
     session_start();
   }
+  if(checkToken($_SESSION["token"]) == null || !isset($_GET["pid"]) || empty($_GET["pid"]))
+    header("Location: ../../../");
+  $project = getProjectByID(trim(decode($_GET["pid"])));
 ?>
 
 <!DOCTYPE html>
@@ -62,6 +65,7 @@
     <link href="../../../assets/css/style.css" rel="stylesheet" />
   </head>
   <body>
+  
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
       <div class="d-flex align-items-center justify-content-between">
@@ -197,7 +201,9 @@
               <span class="d-none d-md-block dropdown-toggle ps-2"
                 >
                 <?php
-                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
+                  $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+                  $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+                  echo $fullName;
                 ?>
                 </span
               > </a
@@ -209,8 +215,10 @@
               <li class="dropdown-header">
                 <h6>
                   <?php
-                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
-                    ?>
+                    $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+                    $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+                    echo $fullName;
+                  ?>
                 </h6>
               </li>
               <li>
@@ -302,20 +310,26 @@
       <div class="pagetitle">
         <div class="d-flex justify-content-between">
           <h1>Edit Project</h1>
-          <button class="btn btn-primary">Save Changes</button>
+          
         </div>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
             <li class="breadcrumb-item">Projects</li>
             <li class="breadcrumb-item active">
-              Machine Learning Sentiment Analysis
+              <?php
+                  if (isset($project["name"]) && !empty($project["name"])) {
+                      echo $project["name"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
             </li>
           </ol>
         </nav>
       </div>
       <!-- End Page Title -->
-
+      
       <section class="section dashboard">
         <div class="row">
           <div class="col-lg-12">
@@ -325,26 +339,60 @@
                 class="outline-none col-12"
                 style="color: #012970"
               >
-                Machine Learning Sentiment Analysis
+                <?php
+                  if (isset($project["name"]) && !empty($project["name"])) {
+                      echo $project["name"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
                 <button
                   contenteditable="false"
                   class="btn btn-link editableButton"
                   data-target="#editableProjectName"
+                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Name"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
               </h1>
               <p
                 id="editableProjectAddress1"
-                class="outline-none col-12"
+                class="outline-none col-12 my-0 py-0"
                 style="color: #012970"
               >
-                1433 W St Lincoln, NE 68508, 1433 W St Lincoln, NE 68508 •
-                Lincoln
+                <?php
+                  if (isset($project["addressOne"]) && !empty($project["addressOne"])) {
+                      echo $project["addressOne"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
                 <button
                   contenteditable="false"
                   class="btn btn-link editableButton"
                   data-target="#editableProjectAddress1"
+                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Address One"
+                >
+                  <i class="bx bx-edit fs-5 text-primary"></i>
+                </button>
+              </p>
+              <p
+                id="editableProjectAddress1"
+                class="outline-none col-12 my-0 py-0"
+                style="color: #012970"
+              >
+                <?php
+                  if (isset($project["addressTwo"]) && !empty($project["addressTwo"])) {
+                      echo $project["addressTwo"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
+                <button
+                  contenteditable="false"
+                  class="btn btn-link editableButton"
+                  data-target="#editableProjectAddress1"
+                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Address Two"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
@@ -352,31 +400,52 @@
             </div>
             <div class="d-flex">
               <p id="cityName" class="outline-none" style="color: #012970">
-                W St Lincoln
+                <?php
+                  if (isset($project["city"]) && !empty($project["city"])) {
+                      echo $project["city"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
                 <button
                   contenteditable="false"
                   class="btn btn-link editableButton"
                   data-target="#cityName"
+                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="City"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
               </p>
               <p id="stateName" class="outline-none" style="color: #012970">
-                Lincoln
+                <?php
+                  if (isset($project["state"]) && !empty($project["state"])) {
+                      echo $project["state"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
                 <button
                   contenteditable="false"
                   class="btn btn-link editableButton"
                   data-target="#stateName"
+                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="State"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
               </p>
               <p id="postalCode" class="outline-none" style="color: #012970">
-                68508
+                <?php
+                  if (isset($project["postalCode"]) && !empty($project["postalCode"])) {
+                      echo $project["postalCode"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
                 <button
                   contenteditable="false"
                   class="btn btn-link editableButton"
                   data-target="#postalCode"
+                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Postal Code"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>

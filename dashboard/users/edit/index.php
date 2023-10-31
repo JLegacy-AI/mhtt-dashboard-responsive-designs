@@ -9,7 +9,6 @@
   if(checkToken($_SESSION["token"]) == null || $_GET["userwiki"] == null)
     header("Location: ../../../");
   $userwiki = $_GET["userwiki"];
-  echo trim(decode($userwiki));
   $user = getUserByID(trim(decode($userwiki)));
 ?>
 <!DOCTYPE html>
@@ -202,7 +201,9 @@
               <span class="d-none d-md-block dropdown-toggle ps-2"
                 >
                 <?php
-                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
+                  $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+                  $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+                  echo $fullName;
                 ?>
                 </span
               > </a
@@ -213,9 +214,11 @@
             >
               <li class="dropdown-header">
                 <h6>
-                  <?php
-                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
-                    ?>
+                <?php
+                  $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+                  $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+                  echo $fullName;
+                ?>
                 </h6>
               </li>
               <li>
@@ -328,11 +331,20 @@
                 class="outline-none m-0 p-0"
                 style="color: #012970"
               >
-                <?php echo $user["firstName"]; ?>
+                <?php
+                  if (isset($user["firstName"]) && !empty($user["firstName"])) {
+                      echo $user["firstName"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
+
                 <button
                   class="btn btn-link editableButton"
+                  data-column="firstName"
                   contenteditable="false"
                   data-target="#editableFirstName"
+                  data-url="<?php echo $userwiki?>"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
@@ -342,11 +354,20 @@
                 class="outline-none m-0 p-0 fs-2"
                 style="color: #012970; font-style: 'Poppins'"
               >
-                <?php echo $user["lastName"]; ?>
+                <?php
+                  if (isset($user["lastName"]) && !empty($user["lastName"])) {
+                      echo $user["lastName"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
+         
                 <button
                   class="btn btn-link editableButton"
+                  data-column="lastName"
                   contenteditable="false"
                   data-target="#editableLastName"
+                  data-url="<?php echo $userwiki?>"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
@@ -360,11 +381,19 @@
                 class="outline-none d-flex flex-row-reverse align-items-center m-0 p-0"
                 style="color: #012970"
               >
-                <?php echo $user["email"]; ?>
+                <?php
+                  if (isset($user["email"]) && !empty($user["email"])) {
+                      echo $user["email"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
                 <button
                   class="btn btn-link editableButton"
                   contenteditable="false"
+                  data-column="email"
                   data-target="#editableEmail"
+                  data-url="<?php echo $userwiki?>"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
@@ -374,11 +403,20 @@
                 class="outline-none d-flex flex-row-reverse align-items-center m-0 p-0"
                 style="color: #012970"
               >
-                <?php echo $user["phoneNumber"]; ?>
+                <?php
+                  if (isset($user["phoneNumber"]) && !empty($user["phoneNumber"])) {
+                      echo $user["phoneNumber"];
+                  } else {
+                      echo "Not Assigned";
+                  }
+                ?>
+                
                 <button
                   class="btn btn-link editableButton"
                   contenteditable="false"
+                  data-column="phoneNumber"
                   data-target="#editablePhoneNumber"
+                  data-url="<?php echo $userwiki?>"
                 >
                   <i class="bx bx-edit fs-5 text-primary"></i>
                 </button>
@@ -453,6 +491,7 @@
                                 <button
                                   class="btn btn-primary w-100"
                                   type="submit"
+                                  data-url="<?php echo $userwiki?>"
                                 >
                                   Save Changes
                                 </button>
@@ -523,11 +562,7 @@
     </a>
 
     <!-- JS Files -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -547,5 +582,6 @@
     <!-- Main JS File -->
     <script src="../../../assets/js/main.js"></script>
     <script src="../../../controllers/controller.js"></script>
+    <script src="../../../controllers/userEditAjax.js"></script>
   </body>
 </html>

@@ -186,7 +186,9 @@
               <span class="d-none d-md-block dropdown-toggle ps-2"
                 >
                 <?php
-                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
+                  $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+                  $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+                  echo $fullName;
                 ?>
                 </span
               > </a
@@ -197,9 +199,11 @@
             >
               <li class="dropdown-header">
                 <h6>
-                  <?php
-                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
-                    ?>
+                <?php
+                  $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+                  $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+                  echo $fullName;
+                ?>
                 </h6>
               </li>
               <li>

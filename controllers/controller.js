@@ -136,8 +136,59 @@ $(document).ready(function () {
   $(".editableButton").click(function () {
     var targetValue = $(this).data("target");
     if ($(targetValue).attr("contenteditable")) {
-      $(targetValue).attr("contenteditable", "false");
+      $(targetValue).removeAttr("contenteditable");
       $(this).html(`<i class='bx bx-edit fs-5 text-primary'></i>`);
+
+      /**
+       *  Ajax Call to Update the Content
+       */
+      const column = $(this).data("column");
+      const id = $(this).data("target");
+      const userUrl = $(this).data("url");
+      const value = $(id).text().trim();
+
+      $.ajax({
+        url: "../../../api/user_edit.php",
+        method: "POST",
+        data: {
+          column: column,
+          url: userUrl,
+          value: value,
+        },
+        success: function (response) {
+          Toastify({
+            text: `✅ ${response["message"]}`,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#f5f5f5",
+              color: "black",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+        error: function (error) {
+          Toastify({
+            text: error.responseJSON["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+      });
     } else {
       $(this).html(`<i class="bx bx-check-square text-success fs-5"></i>`);
       $(targetValue).attr("contenteditable", "true");
@@ -172,4 +223,14 @@ $(document).ready(function () {
     var expires = "expires=" + date.toUTCString();
     document.cookie = name + "=" + value + "; " + expires + "; path=/";
   }
+
+  /**
+   * Tooltip
+   */
+  const tooltipTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="tooltip"]'
+  );
+  const tooltipList = [...tooltipTriggerList].map(
+    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+  );
 });
