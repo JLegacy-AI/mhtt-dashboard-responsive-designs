@@ -1,5 +1,6 @@
 <?php
 include 'db_connection.php';
+// include 'utils.php';
 
 // Function to insert a user into the database
 function insertUser($email, $password, $username, $firstname, $lastname, $phonenumber) {
@@ -96,10 +97,10 @@ function checkUserToken($userId){
 }
 
 
-function addProject($projectName, $addressOne, $addressTwo, $state, $city, $country, $postalCode, $userId){
+function addProject($projectName, $addressOne, $addressTwo, $state, $city, $postalCode, $userId){
     global $conn;
-    $stmt = $conn->prepare("INSERT INTO Projects (name, addressOne, addressTwo, state, city, country, postalCode, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssi", $projectName, $addressOne, $addressTwo, $state, $city, $country, $postalCode, $userId);
+    $stmt = $conn->prepare("INSERT INTO Projects (name, addressOne, addressTwo, state, city, postalCode, user) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssii", $projectName, $addressOne, $addressTwo, $state, $city, $postalCode, $userId);
     if ($stmt->execute()) {
         $stmt->close();
         return true; // Project insertion successful
@@ -109,6 +110,57 @@ function addProject($projectName, $addressOne, $addressTwo, $state, $city, $coun
     }
 }
 
+function countProjectPhotos($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM photos WHERE project = ?");
+    $stmt->bind_param("i", $project['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $count = $result->fetch_assoc();
+    return $count['count'];
+}
+
+function countProjectUsers($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM `Project Users` WHERE project = ?");
+    $stmt->bind_param("i", $project['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $count = $result->fetch_assoc();
+    return $count['count'];
+}
+
+function getProjects($id){
+   global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Projects WHERE user = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $projects = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    
+    foreach($projects as &$project){
+        // Count Photos
+        $project['photos'] = countProjectPhotos($project['id']);
+    
+        // Count Users
+        $project['users'] = countProjectUsers($project['id']);
+    }
+    
+
+    return $projects;
+}
+
+function getUserByID($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT firstName, lastName, username, email, phoneNumber FROM Users WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $stmt->close();
+    return $user;
+}
 
 
 ?>

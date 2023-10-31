@@ -1,16 +1,20 @@
 <?php
     include '../includes/db_functions.php';
-
     if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $token = $_GET["token"];
-        if(checkToken($token))
+        // echo $token;
+        if(checkToken($token)!=null)
         {
-            session_start();
-            session_set_cookie_params(3600);
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+              }
             $_SESSION["token"] = $token;
-
-            header("Location: ../project/index.php");
+            header("Location: ./projects/index.php");
+            
+            // exit();
+        }else{
+            // header("Location: ../index.php");
         }
     }
-    header("Location: ../index.php")
+   
 ?>

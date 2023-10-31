@@ -1,9 +1,12 @@
 <?php
-  if($_SESSION["token"] == null)
-    header("Location: ../../");
   include '../../includes/db_functions.php';
+  include '../../includes/utils.php';
+  if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
+  if(checkToken($_SESSION["token"]) == null)
+    header("Location: ../../");
 
-  $token = getTokens($_SESSION["token"]);
 ?>
 
 
@@ -44,6 +47,11 @@
       rel="stylesheet"
     />
     <link href="../../assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     <!-- Template Main CSS File -->
     <link href="../../assets/css/style.css" rel="stylesheet" />
   </head>
@@ -181,7 +189,11 @@
                 class="rounded-circle"
               />
               <span class="d-none d-md-block dropdown-toggle ps-2"
-                >K. Anderson</span
+                >
+                <?php
+                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
+                ?>
+                </span
               > </a
             ><!-- End Profile Iamge Icon -->
 
@@ -189,25 +201,27 @@
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
             >
               <li class="dropdown-header">
-                <h6>Kevin Anderson</h6>
+                <h6>
+                  <?php
+                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
+                    ?>
+                </h6>
               </li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
-
               <li>
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="../users/edit"
-                >
-                  <i class="bi bi-person"></i>
-                  <span>My Profile</span>
-                </a>
+                <?php
+                  echo '<a
+                          class="dropdown-item d-flex align-items-center"
+                          href="../users/edit?userwiki='.encode(checkToken($_SESSION['token'])['user']).'"
+                        >
+                          <i class="bi bi-person"></i>
+                          <span>My Profile</span>
+                        </a>'
+                ?>
               </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-
+              
               <li>
                 <hr class="dropdown-divider" />
               </li>
@@ -433,59 +447,64 @@
           <div class="col-lg-12">
             <div class="row">
               <!-- Sales Card -->
-              <div class="col-xxl-4 col-lg-6 col-md-12">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Delete</a></li>
-                    </ul>
-                  </div>
+              <?php
+                $projects = getProjects(checkToken($_SESSION["token"])["user"]);
 
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Last Update <span>| Sep 1, 3:52 PM</span>
-                    </h5>
+                foreach($projects as $project) {
+                  echo '<div class="col-xxl-4 col-lg-6 col-md-12">
+                          <div class="card info-card sales-card">
+                            <div class="filter">
+                              <a class="icon" href="#" data-bs-toggle="dropdown"
+                                ><i class="bi bi-three-dots"></i
+                              ></a>
+                              <ul
+                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                              >
+                                <li><a class="dropdown-item" href="./edit/">Edit</a></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                              </ul>
+                            </div>
 
-                    <div class="d-flex align-items-center">
-                      <div
-                        class="card-icon rounded-circle d-flex align-items-center justify-content-center overflow-hidden"
-                      >
-                        <img
-                          class=""
-                          src="./../../assets/img/product-1.jpg"
-                          alt="Project Photo"
-                          style="height: 40px; width: 40px"
-                        />
-                      </div>
-                      <div class="ps-3">
-                        <h6 class="fs-3">
-                          Machine Learning Sentiment Analysis
-                        </h6>
-                        <span class="text-muted small pt-2"
-                          >1433 W St Lincoln, NE 68508, 1433 W St Lincoln, NE
-                          68508 • Lincoln</span
-                        >
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start row">
-                      <div class="d-flex flex-column col-6">
-                        <h5 class="card-title">Photos <span>| 15</span></h5>
-                      </div>
-                      <div
-                        class="d-flex flex-column justify-content-center col-6"
-                      >
-                        <h5 class="card-title">Users <span>| 15</span></h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                Last Activity <span>| '.convertTime($project['lastActivity']).'</span>
+                              </h5>
+
+                              <div class="d-flex align-items-center">
+                                <div
+                                  class="card-icon rounded-circle d-flex align-items-center justify-content-center overflow-hidden"
+                                >
+                                  <img
+                                    class=""
+                                    src="./../../assets/img/product-1.jpg"
+                                    alt="Project Photo"
+                                    style="height: 40px; width: 40px"
+                                  />
+                                </div>
+                                <div class="ps-3">
+                                  <h6 class="fs-3">
+                                    '.$project['name'].'
+                                  </h6>
+                                  <span class="text-muted small pt-2"
+                                    >'.$project['addressOne'].'</span
+                                  >
+                                </div>
+                              </div>
+                              <div class="d-flex align-items-start row">
+                                <div class="d-flex flex-column col-6">
+                                  <h5 class="card-title">Photos <span>| '.$project['photos'].'</span></h5>
+                                </div>
+                                <div
+                                  class="d-flex flex-column justify-content-center col-6"
+                                >
+                                  <h5 class="card-title">Users <span>| '.$project['users'].'</span></h5>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>';
+                };
+              ?>
               <!-- End Sales Card -->
             </div>
           </div>
@@ -514,11 +533,6 @@
 
     <!-- Vendor JS Files -->
     <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
       crossorigin="anonymous"
@@ -528,10 +542,15 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
 
     <!-- Main JS File -->
     <script src="../../assets/js/main.js"></script>
     <script src="../../controllers/controller.js"></script>
-    <script src="../../controllers/ajaxController.js"></script>
+    <script src="../../controllers/ajaxControllers.js"></script>
   </body>
 </html>

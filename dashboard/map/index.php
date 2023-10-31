@@ -1,3 +1,10 @@
+<?php
+  include "../../includes/utils.php";
+  include "../../includes/db_functions.php";
+  if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -175,7 +182,11 @@
                 class="rounded-circle"
               />
               <span class="d-none d-md-block dropdown-toggle ps-2"
-                >K. Anderson</span
+                >
+                <?php
+                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
+                ?>
+                </span
               > </a
             ><!-- End Profile Iamge Icon -->
 
@@ -183,29 +194,27 @@
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
             >
               <li class="dropdown-header">
-                <h6>Kevin Anderson</h6>
+                <h6>
+                  <?php
+                    echo getUserByID(checkToken($_SESSION['token'])['user'])['firstName'][0].' '.getUserByID(checkToken($_SESSION['token'])['user'])['lastName'];
+                    ?>
+                </h6>
               </li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
-
               <li>
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="../users/edit"
-                >
-                  <i class="bi bi-person"></i>
-                  <span>My Profile</span>
-                </a>
+                <?php
+                  echo '<a
+                          class="dropdown-item d-flex align-items-center"
+                          href="../users/edit?userwiki='.encode(checkToken($_SESSION['token'])['user']).'"
+                        >
+                          <i class="bi bi-person"></i>
+                          <span>My Profile</span>
+                        </a>'
+                ?>
               </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-
+              
               <li>
                 <hr class="dropdown-divider" />
               </li>

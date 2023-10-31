@@ -103,8 +103,8 @@ $(document).ready(function () {
               }).showToast();
 
               setTimeout(() => {
-                setCookie("token", JSON.stringify(response["token"]), 1);
-                window.location = `./dashboard/projects/index.php?token=${response["token"]["token"]}`;
+                setCookie("token", response["token"]["token"], 1);
+                window.location = `./dashboard/index.php?token=${response["token"]["token"]}`;
               }, 1000);
             }
           },
