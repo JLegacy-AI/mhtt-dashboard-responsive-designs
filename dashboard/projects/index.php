@@ -438,7 +438,7 @@
         </div>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="../../">Home</a></li>
             <li class="breadcrumb-item active">Projects</li>
           </ol>
         </nav>
@@ -458,14 +458,14 @@
                   echo '<div class="col-xxl-4 col-lg-6 col-md-12">
                           <div class="card info-card sales-card">
                             <div class="filter">
-                              <a class="icon" href="#" data-bs-toggle="dropdown"
-                                ><i class="bi bi-three-dots"></i
-                              ></a>
+                              <a class="icon" href="#" data-bs-toggle="dropdown">
+                                <i class="bi bi-three-dots"></i>
+                              </a>
                               <ul
                                 class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                               >
                                 <li><a class="dropdown-item" href="./edit/?pid='.encode($project['id']).'">Edit</a></li>
-                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                                <li><button class="dropdown-item btn btn-link delete-project" data-target-pid="'.encode($project['id']).'">Delete</button></li>
                               </ul>
                             </div>
 

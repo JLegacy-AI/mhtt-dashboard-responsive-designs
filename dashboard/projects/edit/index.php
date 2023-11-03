@@ -6,6 +6,7 @@
   }
   if(checkToken($_SESSION["token"]) == null || !isset($_GET["pid"]) || empty($_GET["pid"]))
     header("Location: ../../../");
+  
   $project = getProjectByID(trim(decode($_GET["pid"])));
 ?>
 
@@ -457,7 +458,11 @@
                 <div class="card recent-sales overflow-auto">
                   <div class="card-body">
                     <h2 class="card-title fs-2">
-                      Users <span>| 15</span>
+                      Users <span>| 
+                        <?php
+                          echo countProjectUsers(trim($project['id']));
+                        ?>
+                      </span>
                       <button
                         id="addUserToProjectButton"
                         class="btn btn-link"
@@ -479,7 +484,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <?php 
+
+                          // $users = getProjectUsers(trim($project['id']));
+
+                          echo '<tr>
                           <th scope="row"><a href="#">#2457</a></th>
                           <td>
                             <a
@@ -532,7 +541,9 @@
                               </ul>
                             </div>
                           </td>
-                        </tr>
+                        </tr>';
+                        
+                        ?>
                       </tbody>
                     </table>
                   </div>
@@ -679,54 +690,29 @@
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
+            
           </div>
           <div class="modal-body">
             <form
-              id="user-registration-form"
+              id="invite-user-form"
               class="row g-3 needs-input-validation"
               novalidate
             >
-              <div class="col-md-6 col-12">
-                <label for="firstName" class="form-label">First Name</label>
+             <div class="col-12 position-relative dropdown">
+                <label for="username" class="form-label">Email or @Username</label>
                 <input
+                  id="username"
+                  class="form-control dropdown-toggle"
                   type="text"
                   name="name"
-                  class="form-control"
-                  id="firstName"
+                  placeholder="Email or @Username"
                   required
                 />
-                <div class="invalid-feedback">
-                  Please, enter your first name!
-                </div>
+                <ul id="user-menu-list" class="dropdown-menu">
+                  
+                </ul>
               </div>
-
-              <div class="col-md-6 col-12">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  class="form-control"
-                  id="lastName"
-                  required
-                />
-                <div class="invalid-feedback">
-                  Please, enter your last name!
-                </div>
-              </div>
-
-              <div class="col-12">
-                <label for="email" class="form-label">Your Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  class="form-control"
-                  id="email"
-                  required
-                />
-                <div class="invalid-feedback">
-                  Please enter a valid Email adddress!
-                </div>
-              </div>
+              
               <div class="col-12">
                 <button class="btn btn-primary w-100" type="submit">
                   Send Invite
@@ -734,17 +720,15 @@
               </div>
             </form>
           </div>
-          <div class="modal-footer"></div>
+          <div class="modal-footer justify-content-start">
+            <p class="text-muted" style="font-size: 12px;">User already Register use Username if not then enter email.</p>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Vendor JS Files -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -764,5 +748,7 @@
     <!-- Main JS Files -->
     <script src="../../../assets/js/main.js"></script>
     <script src="../../../controllers/controller.js"></script>
+    <script src="../../../controllers/ajaxControllers.js"></script>
+
   </body>
 </html>

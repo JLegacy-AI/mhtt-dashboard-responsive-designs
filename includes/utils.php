@@ -23,6 +23,7 @@
     }
     
     function decode($data){
+        $data = str_replace(' ', '+', $data);
         $secretKey = $_SESSION['token'];
     
         // Decode the data and separate IV from ciphertext

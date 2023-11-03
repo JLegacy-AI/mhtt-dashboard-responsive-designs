@@ -233,4 +233,57 @@ $(document).ready(function () {
   const tooltipList = [...tooltipTriggerList].map(
     (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
   );
+
+  /**
+   * username to add in Project
+   */
+
+  $("#username").keyup(function () {
+    const usernameEmail = $(this).val();
+    if (usernameEmail.length > 0) {
+      $("#user-menu-list").html("");
+      $.ajax({
+        url: "../../../api/user_search.php",
+        method: "POST",
+        data: {
+          usernameEmail: usernameEmail,
+        },
+        success: function (response) {
+          if (response["user"].length > 0) {
+            $("#userList").html("");
+            response["user"].forEach((user) => {
+              $("#user-menu-list").append(
+                `<li><p class="dropdown-item invite-user-dropdown-item" data-target-user="${user["username"]}">${user["firstName"]}, ${user["lastName"]}, @${user["username"]}</p></li>`
+              );
+            });
+            $(".invite-user-dropdown-item").click(function () {
+              const username = $(this).data("target-user");
+              $("#username").val(username);
+              $("#user-menu-list").removeClass("show");
+            });
+            $("#user-menu-list").addClass("show");
+          } else {
+            Toastify({
+              text: response["message"],
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+                color: "black",
+              },
+            }).showToast();
+            $("#user-menu-list").append(
+              `<li><p class="dropdown-item">${response["message"]}</p></li>`
+            );
+          }
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    }
+  });
 });

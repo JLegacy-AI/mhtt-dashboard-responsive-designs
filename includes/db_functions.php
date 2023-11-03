@@ -178,7 +178,7 @@ function updateUserInformation($id, $column, $value){
 
 function getProjectByID($id){
     global $conn;
-    $stmt = $conn->prepare("SELECT name, addressOne, addressTwo, city, state, postalCode, user FROM Projects WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id,name, addressOne, addressTwo, city, state, postalCode, user FROM Projects WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -187,6 +187,55 @@ function getProjectByID($id){
     return $project;
 }
 
+function deleteProject($id){
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM Projects WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true; // Project insertion successful
+    } else {
+        $stmt->close();
+        return false; // Project insertion failed
+    }
+}
 
+function sendInvitation($id){
+   
+   return true;
+}
+
+function searchUser($usernameEmail){
+    global $conn;
+    $stmt = $conn->prepare("SELECT username, firstName, lastName FROM Users WHERE username LIKE ? OR email LIKE ?");
+    $stmt->bind_param("ss", $usernameEmail, $usernameEmail);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $users = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $users;
+}
+
+function getUserByUsername($username){
+    global $conn;
+    $stmt = $conn->prepare("SELECT id, username, firstName, lastName FROM Users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $stmt->close();
+    return $user;
+}
+
+// function getProjectUsers($id){
+//     global $conn;
+//     $stmt = $conn->prepare("SELECT  FROM `Project Users` WHERE project = ?");
+//     $stmt->bind_param("i", $id);
+//     $stmt->execute();
+//     $result = $stmt->get_result();
+//     $users = $result->fetch_all(MYSQLI_ASSOC);
+//     $stmt->close();
+//     return $users;
+// }
 
 ?>
