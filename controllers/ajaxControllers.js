@@ -116,6 +116,7 @@ $(document).ready(function () {
         event.stopPropagation();
         const data = {
           username: $("#username").val(),
+          projectId: $("#username").data("project-id"),
         };
 
         $.ajax({

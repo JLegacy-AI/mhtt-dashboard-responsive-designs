@@ -281,9 +281,147 @@ $(document).ready(function () {
           }
         },
         error: function (error) {
-          console.log(error);
+          Toastify({
+            text: error.responseJSON["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
         },
       });
     }
+  });
+
+  $("#project-image").on("change", function () {
+    var fileInput = this;
+    var imagePreview = $("#image-preview");
+
+    if (fileInput.files && fileInput.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        var img = document.createElement("img");
+        img.src = e.target.result;
+        img.style = "height: 150px";
+
+        imagePreview.html(img);
+      };
+
+      // Read the selected file and trigger the `onload` event
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  });
+
+  $("#upload-photo").click(function () {
+    var fileInput = document.getElementById("project-image");
+    var file = fileInput.files[0];
+
+    if (file) {
+      var formData = new FormData();
+      formData.append("projectImage", file);
+
+      $.ajax({
+        type: "POST",
+        url: "../../../api/upload_image.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          Toastify({
+            text: response["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+              color: "black",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+        error: function (error) {
+          Toastify({
+            text: error.responseJSON["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    } else {
+      Toastify({
+        text: "File is not Selected",
+        className: "info",
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+          color: "black",
+        },
+      }).showToast();
+    }
+  });
+
+  $(".delete-project-user").each(function () {
+    // For each element with the class "delete-project-user"
+    $(this).click(function () {
+      // Attach a click event handler
+      const data = {
+        pid: $(this).data("project-id"),
+        uid: $(this).data("user-id"),
+      };
+      $.ajax({
+        method: "POST",
+        url: "../../../api/project_user_delete.php",
+        data: data,
+        success: (response) => {
+          // Handle a successful response
+          Toastify({
+            text: response.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#4CAF50",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+        error: (error) => {
+          // Handle an error response
+          Toastify({
+            text: error.responseJSON.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    });
   });
 });

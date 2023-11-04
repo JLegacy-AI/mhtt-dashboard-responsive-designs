@@ -478,7 +478,7 @@
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col">Name</th>
-                          <th scope="col">Emails</th>
+                          <th scope="col">Info</th>
                           <th scope="col">Last Activity</th>
                           <th scope="col"></th>
                         </tr>
@@ -486,33 +486,31 @@
                       <tbody>
                         <?php 
 
-                          // $users = getProjectUsers(trim($project['id']));
-
-                          echo '<tr>
-                          <th scope="row"><a href="#">#2457</a></th>
+                          $users = getProjectUsers(trim($project['id']));
+                          foreach( $users as $user){
+                            echo '<tr>
+                          <th scope="row"><a href="#">#'.$user['id'].'</a></th>
                           <td>
                             <a
                               href="#"
                               class="text-primary text-decoration-underline"
                             >
-                              Brandon Jacob
+                            '.$user['fullName'].'
                             </a>
-                            <button class="btn btn-link">
-                              <i class="bx bx-edit fs-5 text-secondary"></i>
-                            </button>
+                            
                           </td>
                           <td>
                             <div class="">
                               <i class="bx bx-envelope"></i>
-                              jamalmuhammad.@gmail.com
+                              '.$user['email'].'
                             </div>
                             <div class="">
                               <i class="bx bx-envelope"></i>
-                              jamalmuhammad.@gmail.com
+                              '.$user['phoneNumber'].'
                             </div>
                           </td>
                           <td>
-                            <span class="badge bg-success">Approved</span>
+                          '.convertTime($user['lastActivity']).'
                           </td>
                           <td>
                             <div class="d-flex">
@@ -529,19 +527,14 @@
                                 class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                               >
                                 <li>
-                                  <a
-                                    class="dropdown-item"
-                                    href="../../users/edit"
-                                    >Edit</a
-                                  >
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" href="#">Delete</a>
+                                  <a class="dropdown-item delete-project-user" style="cursor: pointer;" data-project-id="'.trim($project['id']).'" data-user-id="'.$user['id'].'">Delete</a>
                                 </li>
                               </ul>
                             </div>
                           </td>
                         </tr>';
+                          }
+                          
                         
                         ?>
                       </tbody>
@@ -549,6 +542,9 @@
                   </div>
                 </div>
                 <div class="card overflow-auto">
+                  <div id="image-preview" class="card-header d-flex justify-content-center ">
+                    
+                  </div>
                   <div class="card-body">
                     <h2 class="card-title fs-2">Photos <span>| 15</span></h2>
                     <div
@@ -568,15 +564,13 @@
                           class="position-absolute w-100 h-100 opacity-0"
                           style="cursor: pointer; height: 300px"
                           name=""
-                          id=""
+                          id="project-image"
                         />
                       </div>
-                      <button class="btn btn-primary col-4 mt-3">Upload</button>
+                      <button id="upload-photo" class="btn btn-primary col-4 mt-3">Upload</button>
                     </div>
                   </div>
-                  <div class="card-footer text-center">
-                    <p>Image Preview...</p>
-                  </div>
+                  
                 </div>
                 <div class="card-footer row">
                   <div class="col-12">
@@ -700,14 +694,17 @@
             >
              <div class="col-12 position-relative dropdown">
                 <label for="username" class="form-label">Email or @Username</label>
-                <input
+                <?php
+                  echo '<input
                   id="username"
                   class="form-control dropdown-toggle"
                   type="text"
                   name="name"
+                  data-project-id="'.trim(decode($_GET["pid"])).'"
                   placeholder="Email or @Username"
                   required
-                />
+                />'
+                ?>
                 <ul id="user-menu-list" class="dropdown-menu">
                   
                 </ul>

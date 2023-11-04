@@ -200,9 +200,22 @@ function deleteProject($id){
     }
 }
 
-function sendInvitation($id){
-   
-   return true;
+function sendInvitation($projectId, $id){
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO `project users` (project, user) VALUES (?, ?);");
+    $stmt->bind_param("ii", $projectId, $id);
+
+    try {
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true; // Return true on success
+        } else {
+            $stmt->close();
+            return "Some Unexpected Error Occur"; // Return false on failure
+        }
+    } catch (Exception $e) {
+        return $e->getMessage(); // Return the error message for duplicate key violation
+    }
 }
 
 function searchUser($usernameEmail){
@@ -227,15 +240,28 @@ function getUserByUsername($username){
     return $user;
 }
 
-// function getProjectUsers($id){
-//     global $conn;
-//     $stmt = $conn->prepare("SELECT  FROM `Project Users` WHERE project = ?");
-//     $stmt->bind_param("i", $id);
-//     $stmt->execute();
-//     $result = $stmt->get_result();
-//     $users = $result->fetch_all(MYSQLI_ASSOC);
-//     $stmt->close();
-//     return $users;
-// }
+function getProjectUsers($id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT id, CONCAT(firstName,' ',lastName) as fullName, email, lastActivity FROM `Users` INNER JOIN `Project Users` ON  `Users`.id = `Project Users`.user WHERE project = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $users = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $users;
+}
+
+function deleteProjectUser($projectId, $userId){
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM `Project Users` WHERE project = ? AND user = ?");
+    $stmt->bind_param("ii", $projectId, $userId);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true; // Project deletion successful
+    } else {
+        $stmt->close();
+        return false; // Project deletion failed
+    }
+}
 
 ?>
