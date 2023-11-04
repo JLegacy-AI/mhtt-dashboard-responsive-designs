@@ -340,7 +340,7 @@
                       class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                     >
                       <li><a class="dropdown-item" href="./edit/'.encode($image['id']).'">Edit</a></li>
-                      <li><a class="dropdown-item" data-url="'.$image['url'].'">Share</a></li>
+                      <li><a class="dropdown-item share-photo" data-url="'.$image['url'].'">Share</a></li>
                       <li><a class="dropdown-item delete-photo" data-photo-id="'.encode($image['id']).'">Trash</a></li>
                     </ul>
                   </div>

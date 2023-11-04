@@ -469,4 +469,41 @@ $(document).ready(function () {
       });
     });
   });
+
+  $(".share-photo").each(function (index, element) {
+    element.addEventListener("click", function () {
+      const photoUrl = $(this).data("url");
+      if ("clipboard" in navigator) {
+        navigator.clipboard
+          .writeText(photoUrl)
+          .then(function () {
+            Toastify({
+              text: "🔗 Copied to Clipboard",
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "#f5f5f5",
+                color: "black",
+              },
+            }).showToast();
+          })
+          .catch(function (err) {
+            Toastify({
+              text: "Unable to Copy to Clipboard",
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+              },
+            }).showToast();
+          });
+      }
+    });
+  });
 });

@@ -279,7 +279,7 @@ function addImage( $userId, $url){
 
 function getImages($userId){
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM Photos WHERE user = ?");
+    $stmt = $conn->prepare("SELECT * FROM Photos WHERE user = ? ORDER BY created DESC;");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
