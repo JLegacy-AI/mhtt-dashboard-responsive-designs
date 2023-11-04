@@ -44,6 +44,11 @@
     <link
       href="../../assets/vendor/simple-datatables/style.css"
       rel="stylesheet"
+    /> 
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
 
     <!-- Template Main CSS File -->
@@ -191,9 +196,8 @@
                   echo $fullName;
                 ?>
                 </span
-              > </a
-            ><!-- End Profile Iamge Icon -->
-
+              > </a>
+            <!-- End Profile Iamge Icon -->
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
             >
@@ -320,7 +324,13 @@
           <!-- Left side columns -->
           <div class="col-lg-12">
             <div class="row">
-              <div class="col-xxl-4 col-md-6">
+              
+              <?php
+
+                $images = getImages(checkToken($_SESSION['token'])['user']);
+
+                foreach($images as $image){
+                  echo '<div class="col-xxl-3 col-md-4" >
                 <div class="card info-card sales-card">
                   <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"
@@ -329,306 +339,33 @@
                     <ul
                       class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                     >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Share</a></li>
-                      <li><a class="dropdown-item" href="#">Trash</a></li>
+                      <li><a class="dropdown-item" href="./edit/'.encode($image['id']).'">Edit</a></li>
+                      <li><a class="dropdown-item" data-url="'.$image['url'].'">Share</a></li>
+                      <li><a class="dropdown-item delete-photo" data-photo-id="'.encode($image['id']).'">Trash</a></li>
                     </ul>
                   </div>
 
                   <div class="card-body">
                     <h5 class="card-title">
-                      Date <span>| Sep 1, 3:52 PM</span>
+                      Date <span>| '.convertTime($image['lastActivity']).'</span>
                     </h5>
 
-                    <div class="d-flex align-items-start">
+                    <div class="d-flex align-items-start position-relative" >
                       <img
-                        class="mr-2 mb-2"
-                        src="./../../assets/img/product-1.jpg"
+                        class="mr-2 mb-2 col-12"
+                        src="'.$image['url'].'"
                         alt="Project Photo"
-                        style="height: 150px; width: 150px"
                       />
-                      <div class="ps-3">
-                        <h6>Machine Learning Sentiment Analysis</h6>
-                        <div>
-                          <h5 class="card-title d-flex align-items-center">
-                            <i class="bx bxs-purchase-tag text-primary"></i>
-                            Tags
-                          </h5>
-                          <div class="d-block">
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <a
-                              class="btn btn-primary fw-light text-capitalize mr-2"
-                              ><i class="bx bx-plus"></i
-                            ></a>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>';
+                }
+                
+              
+              ?>
 
-              <div class="col-xxl-4 col-md-6">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Share</a></li>
-                      <li><a class="dropdown-item" href="#">Trash</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Date <span>| Sep 1, 3:52 PM</span>
-                    </h5>
-
-                    <div class="d-flex align-items-start">
-                      <img
-                        class="mr-2 mb-2"
-                        src="./../../assets/img/product-1.jpg"
-                        alt="Project Photo"
-                        style="height: 150px; width: 150px"
-                      />
-                      <div class="ps-3">
-                        <h6>Machine Learning Sentiment Analysis</h6>
-                        <div>
-                          <h5 class="card-title d-flex align-items-center">
-                            <i class="bx bxs-purchase-tag text-primary"></i>
-                            Tags
-                          </h5>
-                          <div class="d-block">
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <a
-                              class="btn btn-primary fw-light text-capitalize mr-2"
-                              ><i class="bx bx-plus"></i
-                            ></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xxl-4 col-md-6">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Share</a></li>
-                      <li><a class="dropdown-item" href="#">Trash</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Date <span>| Sep 1, 3:52 PM</span>
-                    </h5>
-
-                    <div class="d-flex align-items-start">
-                      <img
-                        class="mr-2 mb-2"
-                        src="./../../assets/img/product-1.jpg"
-                        alt="Project Photo"
-                        style="height: 150px; width: 150px"
-                      />
-                      <div class="ps-3">
-                        <h6>Machine Learning Sentiment Analysis</h6>
-                        <div>
-                          <h5 class="card-title d-flex align-items-center">
-                            <i class="bx bxs-purchase-tag text-primary"></i>
-                            Tags
-                          </h5>
-                          <div class="d-block">
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <a
-                              class="btn btn-primary fw-light text-capitalize mr-2"
-                              ><i class="bx bx-plus"></i
-                            ></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xxl-4 col-md-6">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Share</a></li>
-                      <li><a class="dropdown-item" href="#">Trash</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Date <span>| Sep 1, 3:52 PM</span>
-                    </h5>
-
-                    <div class="d-flex align-items-start">
-                      <img
-                        class="mr-2 mb-2"
-                        src="./../../assets/img/product-1.jpg"
-                        alt="Project Photo"
-                        style="height: 150px; width: 150px"
-                      />
-                      <div class="ps-3">
-                        <h6>Machine Learning Sentiment Analysis</h6>
-                        <div>
-                          <h5 class="card-title d-flex align-items-center">
-                            <i class="bx bxs-purchase-tag text-primary"></i>
-                            Tags
-                          </h5>
-                          <div class="d-block">
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <a
-                              class="btn btn-primary fw-light text-capitalize mr-2"
-                              ><i class="bx bx-plus"></i
-                            ></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-xxl-4 col-md-6">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Share</a></li>
-                      <li><a class="dropdown-item" href="#">Trash</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Date <span>| Sep 1, 3:52 PM</span>
-                    </h5>
-
-                    <div class="d-flex align-items-start">
-                      <img
-                        class="mr-2 mb-2"
-                        src="./../../assets/img/product-1.jpg"
-                        alt="Project Photo"
-                        style="height: 150px; width: 150px"
-                      />
-                      <div class="ps-3">
-                        <h6>Machine Learning Sentiment Analysis</h6>
-                        <div>
-                          <h5 class="card-title d-flex align-items-center">
-                            <i class="bx bxs-purchase-tag text-primary"></i>
-                            Tags
-                          </h5>
-                          <div class="d-block">
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <span
-                              class="badge bg-secondary fw-light text-capitalize mr-2"
-                              ><i class="bx bxs-purchase-tag text-light"></i>
-                              jamal</span
-                            >
-                            <a
-                              class="btn btn-primary fw-light text-capitalize mr-2"
-                              ><i class="bx bx-plus"></i
-                            ></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
             </div>
           </div>
         </div>
@@ -645,7 +382,7 @@
       aria-labelledby="addPhotoModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-fullscreen">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button
@@ -668,7 +405,8 @@
                     style="height: 300px"
                   >
                     <i
-                      class="bx bx-image-add text-secondary opacity-50"
+                      id="upload-icon"
+                      class="bx bx-image-add opacity-50"
                       style="font-size: 80px"
                     ></i>
                     <input
@@ -676,14 +414,14 @@
                       class="position-absolute w-100 h-100 opacity-0"
                       style="cursor: pointer; height: 300px"
                       name=""
-                      id=""
+                      id="project-image"
                     />
                   </div>
-                  <button class="btn btn-primary col-4 mt-3">Upload</button>
+                  <button id="upload-photo" class="btn btn-primary col-4 mt-3">Upload</button>
                 </div>
               </div>
-              <div class="card-footer text-center">
-                <p>Image Preview...</p>
+              <div id="image-preview" class="card-footer text-center">
+                
               </div>
             </div>
           </div>
@@ -709,12 +447,24 @@
       ><i class="bi bi-arrow-up-short"></i
     ></a>
 
-    <!-- Vendor JS Files -->
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/vendor/quill/quill.min.js"></script>
-    <script src="../../assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
 
     <!-- Main JS File -->
     <script src="../../assets/js/main.js"></script>
+    <script src="../../controllers/controller.js"></script>
   </body>
 </html>

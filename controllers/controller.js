@@ -271,7 +271,7 @@ $(document).ready(function () {
               position: "right",
               stopOnFocus: true,
               style: {
-                background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+                background: "#f5f5f5",
                 color: "black",
               },
             }).showToast();
@@ -305,6 +305,8 @@ $(document).ready(function () {
       var reader = new FileReader();
 
       reader.onload = function (e) {
+        $("#upload-icon").removeClass("opacity-50");
+        $("#upload-icon").addClass("text-success");
         var img = document.createElement("img");
         img.src = e.target.result;
         img.style = "height: 150px";
@@ -327,7 +329,7 @@ $(document).ready(function () {
 
       $.ajax({
         type: "POST",
-        url: "../../../api/upload_image.php",
+        url: "../../api/upload_image.php",
         data: formData,
         processData: false,
         contentType: false,
@@ -340,7 +342,7 @@ $(document).ready(function () {
             position: "right",
             stopOnFocus: true,
             style: {
-              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+              background: "#f5f5f5",
               color: "black",
             },
           }).showToast();
@@ -409,6 +411,49 @@ $(document).ready(function () {
         },
         error: (error) => {
           // Handle an error response
+          Toastify({
+            text: error.responseJSON.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    });
+  });
+
+  $(".delete-photo").each(function (index, element) {
+    element.addEventListener("click", function () {
+      const photoId = $(this).data("photo-id");
+
+      $.ajax({
+        url: "../../api/delete_photo.php",
+        data: {
+          photoId: photoId,
+        },
+        method: "POST",
+        success: function (response) {
+          Toastify({
+            text: response.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#4CAF50",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+        error: function (error) {
           Toastify({
             text: error.responseJSON.message,
             className: "info",

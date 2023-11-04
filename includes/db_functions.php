@@ -242,7 +242,7 @@ function getUserByUsername($username){
 
 function getProjectUsers($id){
     global $conn;
-    $stmt = $conn->prepare("SELECT id, CONCAT(firstName,' ',lastName) as fullName, email, lastActivity FROM `Users` INNER JOIN `Project Users` ON  `Users`.id = `Project Users`.user WHERE project = ?");
+    $stmt = $conn->prepare("SELECT id, CONCAT(firstName,' ',lastName) as fullName, email, phoneNumber, lastActivity FROM `Users` INNER JOIN `Project Users` ON  `Users`.id = `Project Users`.user WHERE project = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -261,6 +261,43 @@ function deleteProjectUser($projectId, $userId){
     } else {
         $stmt->close();
         return false; // Project deletion failed
+    }
+}
+
+function addImage( $userId, $url){
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO Photos ( user, url) VALUES (?, ?)");
+    $stmt->bind_param("is", $userId, $url);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true;
+    } else {
+        $stmt->close();
+        return false;
+    }
+}
+
+function getImages($userId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Photos WHERE user = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $images = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $images;
+}
+
+function deleteImage($imageId){
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM Photos WHERE id = ?");
+    $stmt->bind_param("i", $imageId);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true; 
+    } else {
+        $stmt->close();
+        return false; 
     }
 }
 

@@ -550,13 +550,13 @@
                     <div
                       class="d-flex justify-content-center flex-column align-items-center"
                     >
-                      <img class="img-thumbnail" src="" alt="" />
                       <div
                         class="col-8 d-flex justify-content-center align-items-center border rounded-3 position-relative"
                         style="height: 300px"
                       >
                         <i
-                          class="bx bx-image-add text-secondary opacity-50"
+                          id="upload-icon"
+                          class="bx bx-image-add opacity-50"
                           style="font-size: 80px"
                         ></i>
                         <input
