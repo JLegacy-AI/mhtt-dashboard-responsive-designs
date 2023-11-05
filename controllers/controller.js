@@ -506,4 +506,6 @@ $(document).ready(function () {
       }
     });
   });
+
+  $("#editPhoto").click(function () {});
 });

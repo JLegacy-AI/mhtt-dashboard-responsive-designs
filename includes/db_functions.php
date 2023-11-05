@@ -301,4 +301,16 @@ function deleteImage($imageId){
     }
 }
 
+
+
+function getImageById($imageId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Photos WHERE id = ? LIMIT 1");
+    $stmt->bind_param("i", $imageId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $image = $result->fetch_assoc();
+    $stmt->close();
+    return $image;
+}
 ?>

@@ -339,7 +339,7 @@
                     <ul
                       class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                     >
-                      <li><a class="dropdown-item" href="./edit/'.encode($image['id']).'">Edit</a></li>
+                      <li><a class="dropdown-item" href="./edit/index.php?puid='.encode($image['id']).'">Edit</a></li>
                       <li><a class="dropdown-item share-photo" data-url="'.$image['url'].'">Share</a></li>
                       <li><a class="dropdown-item delete-photo" data-photo-id="'.encode($image['id']).'">Trash</a></li>
                     </ul>
@@ -352,9 +352,10 @@
 
                     <div class="d-flex align-items-start position-relative" >
                       <img
-                        class="mr-2 mb-2 col-12"
+                        class="mr-2 mb-2"
                         src="'.$image['url'].'"
                         alt="Project Photo"
+                        style="width: 100%;"
                       />
                     </div>
                   </div>

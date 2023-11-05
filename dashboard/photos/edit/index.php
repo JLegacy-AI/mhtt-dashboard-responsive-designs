@@ -4,6 +4,8 @@
   if (session_status() == PHP_SESSION_NONE) {
     session_start();
   }
+  $photoId = decode($_GET['puid']);
+  $photo = getImageById($photoId);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -310,8 +312,7 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Projects</li>
-            <li class="breadcrumb-item">Machine Learning Sentiment Analysis</li>
+            <li class="breadcrumb-item">Photos</li>
             <li class="breadcrumb-item">Edit</li>
             <li class="breadcrumb-item active">Photo</li>
           </ol>
@@ -328,6 +329,7 @@
                 class="col-md-8 col-sm-12 d-flex justify-content-center align-items-center bg-light p-5 position-relative"
               >
                 <button
+                  id="editPhoto"
                   class="btn btn-primary position-absolute"
                   style="top: 10px; left: 10px"
                   type="button"
@@ -336,11 +338,13 @@
                 >
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <img
+                <?php
+                  echo '<img
                   class="img-thumbnail"
-                  src="../../../assets/img/product-2.jpg"
+                  src="'.$photo['url'].'"
                   alt=""
-                />
+                />';
+                ?>
               </div>
               <div class="col-md-4 col-sm-12">
                 <form
@@ -363,7 +367,7 @@
                     </p>
                   </div>
                   <div class="col-12 row">
-                    <a href="#"> <i class="bi bi-tags-fill"></i> Add Tags </a>
+                    <a > <i class="bi bi-tags-fill"></i> Add Tags </a>
                     <div class="col-12 py-2">
                       <span class="badge text-dark img-thumbnail fw-normal"
                         ><i class="bi bi-tag pe-2"></i>Light</span
@@ -422,7 +426,7 @@
     ></a>
 
     <div
-      class="modal fade rounded-0"
+      class="modal fade rounded-0 show"
       id="exampleModal"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
