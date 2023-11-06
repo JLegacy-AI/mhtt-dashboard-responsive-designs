@@ -307,7 +307,6 @@
       <div class="pagetitle">
         <div class="d-flex justify-content-between">
           <h1>Edit Photo</h1>
-          <button class="btn btn-primary">Save Changes</button>
         </div>
         <nav>
           <ol class="breadcrumb">
@@ -324,20 +323,24 @@
         <div class="row">
           <div class="card overflow-auto">
             <div class="card-body row">
-              <h2 class="card-title fs-2">Photo <span>| #15</span></h2>
+              <h2 class="card-title fs-2">Photo <span>| #
+                <?php echo $photoId?>
+              </span></h2>
               <div
-                class="col-md-8 col-sm-12 d-flex justify-content-center align-items-center bg-light p-5 position-relative"
+                class="col-12 d-flex justify-content-center align-items-center bg-light p-5 position-relative"
               >
-                <button
-                  id="editPhoto"
-                  class="btn btn-primary position-absolute"
-                  style="top: 10px; left: 10px"
-                  type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  <i class="bi bi-pencil-square"></i>
-                </button>
+                <?php
+                  echo '<button
+                          id="editPhoto"
+                          class="btn btn-primary position-absolute"
+                          style="top: 10px; left: 10px"
+                          type="button"
+                          data-url="'.$photo['url'].'"
+                          
+                        >
+                          <i class="bi bi-pencil-square"></i>
+                        </button>';
+                ?>
                 <?php
                   echo '<img
                   class="img-thumbnail"
@@ -346,62 +349,182 @@
                 />';
                 ?>
               </div>
-              <div class="col-md-4 col-sm-12">
-                <form
-                  id="project-add-form"
-                  class="row g-3 needs-validation"
-                  novalidate
-                >
-                  <div class="col-12">
-                    <p class="fs-4 py-0 my-0">
-                      Machine Learning Sentiment Analysis
-                    </p>
-                    <p
-                      class="overflow-hidden text-nowrap text-muted col-10 fw-medium py-0"
-                      style="font-size: 12px"
-                    >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Labore hic eius recusandae natus distinctio earum quod
-                      consequatur totam quis ex, sunt, odio explicabo sed est
-                      consequuntur repudiandae odit? Mollitia, tempora?
-                    </p>
-                  </div>
-                  <div class="col-12 row">
-                    <a > <i class="bi bi-tags-fill"></i> Add Tags </a>
-                    <div class="col-12 py-2">
-                      <span class="badge text-dark img-thumbnail fw-normal"
-                        ><i class="bi bi-tag pe-2"></i>Light</span
-                      >
-                      <span class="badge text-dark img-thumbnail fw-normal"
-                        ><i class="bi bi-tag pe-2"></i>Light</span
-                      >
-                      <span class="badge text-dark img-thumbnail fw-normal"
-                        ><i class="bi bi-tag pe-2"></i>Light</span
-                      >
-                      <span class="badge text-dark img-thumbnail fw-normal"
-                        ><i class="bi bi-tag pe-2"></i>Light</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <label for="" class="form-label text-primary"
-                      >Description</label
-                    >
-                    <div class="input-group">
-                      <textarea name="" id="" cols="100" rows="15"></textarea>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <button class="btn btn-primary w-100" type="submit">
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
             </div>
           </div>
+
+          <div class="card recent-sales overflow-auto">
+                  <div class="card-header">
+                      <p class="text-muted" style="font-size: 12px">Select Project From Dropdown and Press Enter to Add</p>
+                      <div class="form-floating" style="height:50px;">
+                        <input type="text" class="form-control" placeholder="Leave a Description here" id="descriptionTextArea" />
+                        <label for="floatingTextarea">Project id or Name</label>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                    <h2 class="card-title fs-2">
+                      Projects <span>|  1
+                      </span>
+                    </h2>
+
+                    <table class="table table-borderless table-hover datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Address</th>
+                          <th scope="col">State</th>
+                          <th scope="col">City</th>
+                          <th scope="col">Postal Code</th>
+                          <th scope="col">Last Activity</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                          
+                          echo '<tr>
+                          <th scope="row"><a href="#">#1</a></th>
+                          <td>
+                            <a
+                              href="#"
+                              class="text-primary text-decoration-underline"
+                            >
+                            Jamal
+                            </a>
+                            
+                          </td>
+                          <td>
+                            <div class="">
+                              <i class="bx bx-envelope"></i>
+                              Jamal
+                            </div>
+                            <div class="">
+                              <i class="bx bx-envelope"></i>
+                              Jamal
+                            </div>
+                          </td>
+                          <td>
+                            Jamal
+                          </td>
+                          <td>
+                            Jamal
+                          </td>
+                          <td>
+                            Jamal
+                          </td>
+                          <td>
+                            Jamal
+                          </td>
+                          <td>
+                            <div class="d-flex">
+                              <a
+                                class="icon"
+                                href="#"
+                                data-bs-toggle="dropdown"
+                              >
+                                <i
+                                  class="bx bx-dots-horizontal-rounded fs-5"
+                                ></i>
+                              </a>
+                              <ul
+                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                              >
+                                <li>
+                                  <a class="dropdown-item delete-project-user" style="cursor: pointer;" data-project-id="" data-user-id="">Delete</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>';
+                        
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+                <div class="card recent-sales overflow-auto col-12 col-md-6">
+                  <div class="card-header">
+                      <p class="text-muted" style="font-size: 12px">Write Tag and Press Enter to Add</p>
+                      <div class="form-floating" style="height:50px;">
+                        <input type="text" class="form-control" placeholder="Leave a Description here" id="descriptionTextArea" />
+                        <label for="floatingTextarea">Add Tag</label>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                    <h2 class="card-title fs-2">
+                      Tags <span>|  1
+                      </span>
+                    </h2>
+
+                    <table class="table table-borderless table-hover datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Tags</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                          
+                          echo '<tr>
+                          <th scope="row"><a href="#">#1</a></th>
+                          <td>
+                            <a
+                              href="#"
+                              class="text-primary text-decoration-underline"
+                            >
+                            Jamal
+                            </a>
+                            
+                          </td>
+                          <td>
+                            <div class="d-flex">
+                              <a
+                                class="icon"
+                                href="#"
+                                data-bs-toggle="dropdown"
+                              >
+                                <i
+                                  class="bx bx-dots-horizontal-rounded fs-5"
+                                ></i>
+                              </a>
+                              <ul
+                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                              >
+                                <li>
+                                  <a class="dropdown-item delete-project-user" style="cursor: pointer;" data-project-id="" data-user-id="">Delete</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>';
+                        
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-1">
+
+                </div>
+                <div class="card recent-sales overflow-auto col-12 col-md-5">
+                  <div class="card-body">
+                    <h2 class="card-title fs-2">
+                      Description <span>|  253 Characters
+                      </span>
+                    </h2>
+                    <div class="form-floating h-100 ">
+                      <textarea class="form-control" placeholder="Leave a Description here" id="descriptionTextArea" style="min-height: 70%;"></textarea>
+                      <label for="floatingTextarea">Description</label>
+                    </div>
+                  </div>
+                  <div class="card-footer d-flex justify-content-end">
+                    <button id="addDescriptionButton" class="btn btn-primary">Save</button>
+                  </div>
+                </div>
+                
         </div>
       </section>
     </main>
@@ -422,14 +545,15 @@
     <a
       href="#"
       class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+    >
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
 
     <div
-      class="modal fade rounded-0 show"
-      id="exampleModal"
+      class="modal fade rounded-0"
+      id="toast-image-editor-modal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="toast-image-editor-modal-label"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-fullscreen">

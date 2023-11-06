@@ -1,5 +1,5 @@
 var whiteTheme = {
-  "common.backgroundColor": "#f5f5f5",
+  "common.backgroundColor": "#f1f1f1",
   "common.border": "1px solid #c1c1c1",
 
   // header
@@ -61,33 +61,71 @@ var whiteTheme = {
 };
 
 $(document).ready(function () {
-  // Image editor
-  var imageEditor = new tui.ImageEditor("#tui-image-editor-container", {
-    includeUI: {
-      loadImage: {
-        path: "../../../assets/img/product-2.jpg",
-        name: "SampleImage",
+  const initToastImageEditor = (imageUrl) => {
+    // Image editor
+    var imageEditor = new tui.ImageEditor("#tui-image-editor-container", {
+      includeUI: {
+        loadImage: {
+          path: imageUrl,
+          name: "Image",
+        },
+        theme: whiteTheme,
+        initMenu: "filter",
+        menuBarPosition: "left",
       },
-      theme: whiteTheme,
-      initMenu: "filter",
-      menuBarPosition: "top",
-    },
-    cssMaxWidth: 1000,
-    cssMaxHeight: 1000,
-    usageStatistics: false,
-  });
+      cssMaxWidth: 1000,
+      cssMaxHeight: 1000,
+      usageStatistics: true,
+    });
+    $(".tui-image-editor-menu").prepend(
+      `<li id="download-updated-image" tooltip-content="Download" class="tie-btn-rotate tui-image-editor-item normal">
+        <i class='bx bx-download fs-3 text-white' style="opacity: 0.5"></i>
+      </li>`
+    );
+    $(".tui-image-editor-menu").prepend(
+      `<li id="save-updated-image" tooltip-content="Upload" class="tie-btn-rotate tui-image-editor-item normal">
+        <i class='bx bx-upload fs-3 text-white' style="opacity: 0.5" ></i>
+      </li>`
+    );
+    $("#download-updated-image").click(function () {
+      const canvas = $(".lower-canvas")[0];
+      const dataURL = canvas.toDataURL("image/png");
 
-  $(".tui-image-editor-download-btn").html(`<i class="bi bi-download"></i>`);
-  $(".tui-image-editor-download-btn").removeAttr("style");
-  $(".tui-image-editor-download-btn").attr(
-    "class",
-    "btn btn-primary rounded-0 border-0"
-  );
-  $(".tui-image-editor-controls-logo").html("");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = dataURL;
+      downloadLink.download = "image-edited.png";
+      downloadLink.click();
+    });
 
-  imageEditor.toDataURL();
+    $("#save-updated-image").click(function () {
+      const canvas = $(".lower-canvas")[0];
+      const dataURL = canvas.toDataURL("image/png");
+    });
+    $(".tui-image-editor-header").remove();
+    $(".tui-image-editor-download-btn").html(`<i class="bi bi-download"></i>`);
+    $(".tui-image-editor-download-btn").removeAttr("style");
+    $(".tui-image-editor-download-btn").attr(
+      "class",
+      "btn btn-primary rounded-0 border-0"
+    );
+    $(".tui-image-editor-controls-logo").html("");
 
-  window.onresize = function () {
-    imageEditor.ui.resizeEditor();
+    imageEditor.toDataURL();
+
+    window.onresize = function () {
+      imageEditor.ui.resizeEditor();
+    };
   };
+
+  $("#editPhoto").click(function () {
+    const imageUrl = $(this).data("url");
+    initToastImageEditor(imageUrl);
+    $("#toast-image-editor-modal").css("display", "block");
+    $("#toast-image-editor-modal").addClass("show");
+    const closeButton = $("#toast-image-editor-modal .btn-close");
+    closeButton.click(function () {
+      $("#toast-image-editor-modal").css("display", "none");
+      $("#toast-image-editor-modal").removeClass("show");
+    });
+  });
 });

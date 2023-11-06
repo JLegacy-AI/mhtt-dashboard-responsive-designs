@@ -325,6 +325,7 @@ $(document).ready(function () {
 
     if (file) {
       var formData = new FormData();
+      console.log(typeof file);
       formData.append("projectImage", file);
 
       $.ajax({

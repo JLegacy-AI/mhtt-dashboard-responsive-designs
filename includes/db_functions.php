@@ -103,16 +103,16 @@ function addProject($projectName, $addressOne, $addressTwo, $state, $city, $post
     $stmt->bind_param("sssssii", $projectName, $addressOne, $addressTwo, $state, $city, $postalCode, $userId);
     if ($stmt->execute()) {
         $stmt->close();
-        return true; // Project insertion successful
+        return true;
     } else {
         $stmt->close();
-        return false; // Project insertion failed
+        return false;
     }
 }
 
 function countProjectPhotos($id){
     global $conn;
-    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM photos WHERE project = ?");
+    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM `Project Photos` WHERE project = ?");
     $stmt->bind_param("i", $project['id']);
     $stmt->execute();
     $result = $stmt->get_result();

@@ -1237,3 +1237,9 @@ h6 {
     width: 95% !important;
   }
 }
+
+#save-updated-image .bx:hover,
+#download-updated-image .bx:hover {
+  cursor: pointer;
+  opacity: 0.9 !important;
+}
