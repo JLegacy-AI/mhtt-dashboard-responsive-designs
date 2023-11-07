@@ -314,6 +314,17 @@ function getImageById($imageId){
     return $image;
 }
 
+function getImageByURL($imageUrl){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Photos WHERE url = ? LIMIT 1");
+    $stmt->bind_param("s", $imageUrl);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $image = $result->fetch_assoc();
+    $stmt->close();
+    return $image;
+}
+
 
 function searchTags($tags){
     global $conn;
@@ -350,7 +361,7 @@ function searchProject($projectNameID, $userId){
 function addProjectToPhoto($projectId, $photoId){
     global $conn;
     $stmt = $conn->prepare("INSERT INTO `Project Photos` ( photo, project) VALUES (?, ?)");
-    $stmt->bind_param("ii", $projectId, $photoId);
+    $stmt->bind_param("ii", $photoId, $projectId);
     try {
         if ($stmt->execute()) {
             $stmt->close();
@@ -437,4 +448,27 @@ function deletePhotoFromProject($projectId, $photoId){
         return false; 
     }
 }
+
+function getProjectImages($projectId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Photos WHERE id IN (SELECT photo FROM `Project Photos` WHERE project = ?) ORDER BY created DESC");
+    $stmt->bind_param("i", $projectId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $images = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $created = date("Y-m-d", strtotime($row["created"]));
+
+        if (!isset($images[$created])) {
+            $images[$created] = array();
+        }
+
+        $images[$created][] = $row;
+    }
+
+    $stmt->close();
+    return $images;
+}
+
 ?>

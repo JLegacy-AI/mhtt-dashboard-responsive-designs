@@ -567,74 +567,84 @@
                           id="project-image"
                         />
                       </div>
-                      <button id="upload-photo" class="btn btn-primary col-4 mt-3">Upload</button>
+                      <?php
+                        echo '<button id="upload-project-photo" class="btn btn-primary col-4 mt-3" data-project-id="'.$project['id'].'">Upload</button>'
+                      ?>
                     </div>
                   </div>
                   
                 </div>
                 <div class="card-footer row">
-                  <div class="col-12">
-                    <h2 class="card-title fs-4 col-12">25th October 2023</h2>
-                    <div class="col-12 row">
-                      <!-- IMAGE START -->
-                      <div class="col-sm-5 col-md-4 col-lg-3 position-relative">
-                        <div
-                          class="d-flex position-absolute z-3 px-3 py-2 end-0"
-                        >
-                          <a class="icon" href="#" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded fs-4"></i>
-                          </a>
-                          <ul
-                            class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                          >
-                            <li>
-                              <a class="dropdown-item" href="../../photos/edit"
-                                >Edit</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item text-danger" href="#"
-                                >Delete</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                        <img
-                          class="w-100 h-100"
-                          src="../../../assets/img/product-2.jpg"
-                          alt="IPhone Watch"
-                        />
-                        <a
-                          class="h-100 position-absolute images-overlay"
-                          href="#"
-                          style="
-                            background-color: rgba(0, 0, 0, 0);
-                            transition: all 300ms;
-                            transform: translateX(-100%);
-                            width: 90%;
-                          "
-                        >
-                          <input
-                            class="position-absolute"
-                            aria-label="select image"
-                            style="
-                              cursor: pointer;
-                              opacity: 1;
-                              left: 10px;
-                              bottom: 10px;
-                              height: 20px;
-                              width: 20px;
-                            "
-                            type="checkbox"
-                            name=""
-                            id=""
-                          />
-                        </a>
-                      </div>
-                      <!-- IMAGE END -->
-                    </div>
-                  </div>
-                </div>
+                     <?php
+                      $dateImages = getProjectImages(trim($project['id']));
+                      foreach($dateImages as $dateTime => $dateImage){
+                        echo '<div class="col-12">
+                                <h2 class="card-title fs-4 col-12">'.date("j F, Y", strtotime($dateTime)).'</h2>
+                                <div class="col-12 row">';
+                        foreach($dateImage as $image){
+                          echo '<div class=" col-sm-5 col-md-4 col-lg-3 position-relative shadow-lg" style="min-height:200px; min-width: 200px;">
+                                    <div
+                                      class="d-flex position-absolute z-3 px-3 py-2 end-0"
+                                    >
+                                      <a class="icon" href="#" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded fs-4 text-white"></i>
+                                      </a>
+                                      <ul
+                                        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                                      >
+                                        <li>
+                                          <a class="dropdown-item" href="../../photos/edit/?puid='.encode($image['id']).'"
+                                            >Edit</a
+                                          >
+                                        </li>
+                                        <li>
+                                          <a class="dropdown-item text-danger remove-image-from-project" style="cursor: pointer;" data-project-id="'.trim($project['id']).'" data-photo-id="'.$image['id'].'">Delete</a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  
+                                    <img
+                                    class="w-100 h-100"
+                                    src="'.$image['url'].'"
+                                    alt=""
+                                    />
+                      
+                                    <a
+                                      class="h-100 position-absolute images-overlay"
+                                      href="#"
+                                      style="
+                                        background-color: rgba(0, 0, 0, 0);
+                                        transition: all 300ms;
+                                        transform: translateX(-100%);
+                                        width: 90%;
+                                      "
+                                    >
+                                      <input
+                                        class="position-absolute"
+                                        aria-label="select image"
+                                        style="
+                                          cursor: pointer;
+                                          opacity: 1;
+                                          left: 10px;
+                                          bottom: 10px;
+                                          height: 20px;
+                                          width: 20px;
+                                        "
+                                        type="checkbox"
+                                        name=""
+                                        id=""
+                                      />
+                                    </a>
+                                </div>';
+                        }
+                        echo '</div>
+                        </div>';
+                      }
+                      
+                        
+                     ?>
+                    
+                  
               </div>
             </div>
           </div>

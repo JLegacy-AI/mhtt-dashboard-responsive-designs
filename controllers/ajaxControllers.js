@@ -136,9 +136,9 @@ $(document).ready(function () {
                 background: "#4CAF50",
               },
             }).showToast();
-            // setTimeout(() => {
-            //   location.reload();
-            // }, 1000);
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
           },
           error: (error) => {
             Toastify({

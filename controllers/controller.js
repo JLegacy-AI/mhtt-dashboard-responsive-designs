@@ -800,4 +800,96 @@ $(document).ready(function () {
       });
     });
   });
+  $("#upload-project-photo").on("click", function () {
+    const projectId = $(this).data("project-id");
+    const fileInput = document.getElementById("project-image");
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    console.log(projectId);
+    formData.append("projectPhoto", file);
+    formData.append("projectId", projectId);
+    $.ajax({
+      method: "POST",
+      url: "../../../api/upload_image_to_project.php",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: (response) => {
+        console.log(response);
+        Toastify({
+          text: response.message,
+          className: "info",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#4CAF50",
+          },
+        }).showToast();
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      },
+      error: (error) => {
+        console.log(error);
+        Toastify({
+          text: error.responseJSON.message,
+          className: "info",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+          },
+        }).showToast();
+      },
+    });
+  });
+  $(".remove-image-from-project").each(function (index, element) {
+    $(element).on("click", function () {
+      const data = {
+        projectId: $(this).data("project-id"),
+        photoId: $(this).data("photo-id"),
+      };
+      console.log(data);
+      $.ajax({
+        method: "POST",
+        url: "../../../api/delete_project_photo.php",
+        data: data,
+        success: (response) => {
+          console.log(response);
+          Toastify({
+            text: response.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#4CAF50",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+        error: (error) => {
+          console.log(error);
+          Toastify({
+            text: error.responseJSON.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    });
+  });
 });
