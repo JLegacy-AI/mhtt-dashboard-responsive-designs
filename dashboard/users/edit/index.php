@@ -310,7 +310,6 @@
       <div class="pagetitle">
         <div class="d-flex justify-content-between">
           <h1>Edit User</h1>
-          <button class="btn btn-primary">Save Changes</button>
         </div>
         <nav>
           <ol class="breadcrumb">

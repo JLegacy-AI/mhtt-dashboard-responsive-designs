@@ -315,124 +315,54 @@
           <div class="col-lg-12">
             <div class="row">
               <!-- Sales Card -->
-              <div class="col-md-6 col-xl-4 col-sm-12">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Delete</a></li>
-                    </ul>
-                  </div>
+              <?php
+                $users = getUsersFromProjects(getUserByID(checkToken($_SESSION['token'])['user']));
 
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Last Activity <span>| Sep 1, 3:52 PM</span>
-                    </h5>
-                    <div class="d-flex align-content-center">
-                      <i
-                        class="fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center align-items-center"
-                      ></i>
-                      <h1 class="card-title fs-1">
-                        Jamal <span>Muhammad</span>
-                      </h1>
-                    </div>
-                    <div>
-                      <h5 class="card-title m-0 p-0">
-                        <i class="bx bx-phone"></i>
-                        <span>| +92 307 7923020</span>
-                      </h5>
-                      <h5 class="card-title m-0 p-0">
-                        <i class="bx bx-envelope"></i>
-                        <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span>
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                foreach($users as $user) {
+                  echo '<div class="col-md-6 col-xl-4 col-sm-12">
+                          <div class="card info-card sales-card">
+                            <div class="filter">
+                              <a class="icon" href="#" data-bs-toggle="dropdown"
+                                ><i class="bi bi-three-dots"></i
+                              ></a>
+                              <ul
+                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                              >
+                                <li><a class="dropdown-item" href="./edit/?userwiki='.encode($user['id']).'">Edit</a></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                              </ul>
+                            </div>
+
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                Last Activity <span>| '.convertTime($user['lastActivity']).'</span>
+                              </h5>
+                              <div class="d-flex align-content-center">
+                                <i
+                                  class="fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center align-items-center"
+                                ></i>
+                                <h1 class="card-title fs-1">
+                                '.$user['firstName'].' <span>'.$user['lastName'].'</span>
+                                </h1>
+                              </div>
+                              <div>
+                                <h5 class="card-title m-0 p-0">
+                                  <i class="bx bx-phone"></i>
+                                  <span>| '.$user['phoneNumber'].'</span>
+                                </h5>
+                                <h5 class="card-title m-0 p-0">
+                                  <i class="bx bx-envelope"></i>
+                                  <span>| '.$user['email'].'</span>
+                                </h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>';
+                }
+                
+              ?>
               <!-- End Sales Card -->
-              <div class="col-md-6 col-xl-4 col-sm-12">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Last Activity <span>| Sep 1, 3:52 PM</span>
-                    </h5>
-                    <div class="d-flex align-content-center">
-                      <i
-                        class="fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center align-items-center"
-                      ></i>
-                      <h1 class="card-title fs-1">
-                        Jamal <span>Muhammad</span>
-                      </h1>
-                    </div>
-                    <div>
-                      <h5 class="card-title m-0 p-0">
-                        <i class="bx bx-phone"></i>
-                        <span>| +92 307 7923020</span>
-                      </h5>
-                      <h5 class="card-title m-0 p-0">
-                        <i class="bx bx-envelope"></i>
-                        <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span>
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-4 col-sm-12">
-                <div class="card info-card sales-card">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li><a class="dropdown-item" href="./edit/">Edit</a></li>
-                      <li><a class="dropdown-item" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Last Activity <span>| Sep 1, 3:52 PM</span>
-                    </h5>
-                    <div class="d-flex align-content-center">
-                      <i
-                        class="fs-1 bx bxs-user-circle text-secondary d-flex justify-content-center align-items-center"
-                      ></i>
-                      <h1 class="card-title fs-1">
-                        Jamal <span>Muhammad</span>
-                      </h1>
-                    </div>
-                    <div>
-                      <h5 class="card-title m-0 p-0">
-                        <i class="bx bx-phone"></i>
-                        <span>| +92 307 7923020</span>
-                      </h5>
-                      <h5 class="card-title m-0 p-0">
-                        <i class="bx bx-envelope"></i>
-                        <span>| jamalmuhammad.bsaif20@iba-suk.edu.pk</span>
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>

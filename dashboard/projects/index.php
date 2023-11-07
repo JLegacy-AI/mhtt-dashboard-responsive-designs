@@ -455,6 +455,10 @@
                 $projects = getProjects(checkToken($_SESSION["token"])["user"]);
 
                 foreach($projects as $project) {
+
+                  $projectImage = getProjectOneImage($project['id']);
+                  $isImage = count($projectImage) > 0 ? true : false;
+
                   echo '<div class="col-xxl-4 col-lg-6 col-md-12">
                           <div class="card info-card sales-card">
                             <div class="filter">
@@ -472,19 +476,25 @@
                             <div class="card-body">
                               <h5 class="card-title">
                                 Last Activity <span>| '.convertTime($project['lastActivity']).'</span>
-                              </h5>
-
+                              </h5>';
+                              if($isImage) {
+                                echo '<img
+                                        class="w-100"
+                                        src="'.$projectImage['url'].'"
+                                        alt="Project Photo"
+                                        
+                                      />';
+                              }else{
+                                echo '<img
+                                        class=""
+                                        src="../../assets/img/sample_image.jpg"
+                                        alt="Project Photo"
+                                        style="height: 40px; width: 40px"
+                                      />';
+                              }
+                              
+                              echo '
                               <div class="d-flex align-items-center">
-                                <div
-                                  class="card-icon rounded-circle d-flex align-items-center justify-content-center overflow-hidden"
-                                >
-                                  <img
-                                    class=""
-                                    src="./../../assets/img/product-1.jpg"
-                                    alt="Project Photo"
-                                    style="height: 40px; width: 40px"
-                                  />
-                                </div>
                                 <div class="ps-3">
                                   <h6 class="fs-3">
                                     '.$project['name'].'
@@ -496,12 +506,12 @@
                               </div>
                               <div class="d-flex align-items-start row">
                                 <div class="d-flex flex-column col-6">
-                                  <h5 class="card-title">Photos <span>| '.$project['photos'].'</span></h5>
+                                  <h5 class="card-title">Photos <span>| '.getProjectImagesCount($project['id'])['count'].'</span></h5>
                                 </div>
                                 <div
                                   class="d-flex flex-column justify-content-center col-6"
                                 >
-                                  <h5 class="card-title">Users <span>| '.$project['users'].'</span></h5>
+                                  <h5 class="card-title">Users <span>| '.getProjectUserCount($project['id'])['count'].'</span></h5>
                                 </div>
                               </div>
                             </div>

@@ -528,20 +528,22 @@
                 <div class="col-md-1">
 
                 </div>
-                <div class="card recent-sales overflow-auto col-12 col-md-5">
-                  <div class="card-body">
-                    <h2 class="card-title fs-2">
-                      Description <span>|  253 Characters
-                      </span>
-                    </h2>
-                    <div class="form-floating h-100 ">
-                      <textarea class="form-control" placeholder="Leave a Description here" id="descriptionTextArea" style="min-height: 70%;"></textarea>
-                      <label for="floatingTextarea">Description</label>
+                  <div class="card recent-sales overflow-auto col-12 col-md-5">
+                    <div class="card-body">
+                      <h2 class="card-title fs-2">
+                        Description <span id="show-description-characters">|  <?php echo strlen($photo['description'])?> Characters
+                        </span>
+                      </h2>
+                      <div class="form-floating">
+                        <textarea id="photo-description" class="form-control" placeholder="Leave a Description here" id="descriptionTextArea"><?php echo $photo['description']?></textarea>
+                        <label for="floatingTextarea">Description</label>
+                      </div>
                     </div>
-                  </div>
-                  <div class="card-footer d-flex justify-content-end">
-                    <button id="addDescriptionButton" class="btn btn-primary">Save</button>
-                  </div>
+                    <div class="card-footer d-flex justify-content-end">
+                      <?php
+                        echo '<button id="addDescriptionButton" class="btn btn-primary" data-photo-id="'.$photoId.'" style="cursor: pointer;">Save</button>';
+                      ?>
+                    </div>
                 </div>
                 
         </div>

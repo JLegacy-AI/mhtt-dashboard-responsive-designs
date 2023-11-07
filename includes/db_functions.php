@@ -471,4 +471,62 @@ function getProjectImages($projectId){
     return $images;
 }
 
+function addPhotoDescription($photoId, $description){
+    global $conn;
+    $stmt = $conn->prepare("UPDATE Photos SET description = ? WHERE id = ?");
+    $stmt->bind_param("si", $description, $photoId);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true; 
+    } else {
+        $stmt->close();
+        return false; 
+    }
+}
+
+
+function getProjectOneImage($projectId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Photos WHERE id IN (SELECT photo FROM `Project Photos` WHERE project = ?) LIMIT 1;");
+    $stmt->bind_param("i", $projectId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $images = $result->fetch_assoc();
+    $stmt->close();
+    return $images;
+}
+
+function getProjectImagesCount($projectId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM Photos WHERE id IN (SELECT photo FROM `Project Photos` WHERE project = ?);");
+    $stmt->bind_param("i", $projectId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $images = $result->fetch_assoc();
+    $stmt->close();
+    return $images;
+}
+
+function getProjectUserCount($projectId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM `Project Users` WHERE project = ?;");
+    $stmt->bind_param("i", $projectId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $images = $result->fetch_assoc();
+    $stmt->close();
+    return $images;
+}
+
+function getUsersFromProjects($userId){
+    global $conn;
+    $stmt = $conn -> prepare("SELECT * FROM `Users` WHERE id IN (SELECT user FROM `Project Users` WHERE project IN (SELECT project FROM `Project Users` WHERE user = ?))");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $users = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $users;
+}
+
 ?>

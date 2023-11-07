@@ -892,4 +892,52 @@ $(document).ready(function () {
       });
     });
   });
+
+  $("#photo-description").on("keyup", function (event) {
+    // $(this).val().split("").length
+    $("#show-description-characters").html(
+      `| ${$(this).val().split("").length} Characters`
+    );
+  });
+
+  $("#addDescriptionButton").on("click", function () {
+    console.log($("#photo-description").val());
+    const data = {
+      photoId: $(this).data("photo-id"),
+      description: $("#photo-description").val(),
+    };
+    $.ajax({
+      url: "../../../api/add_photo_description.php",
+      data: data,
+      method: "POST",
+      success: function (response) {
+        console.log(response);
+        Toastify({
+          text: response.message,
+          className: "info",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#4CAF50",
+          },
+        }).showToast();
+      },
+      error: function (error) {
+        console.log(error);
+        Toastify({
+          text: error.responseJSON.message,
+          className: "info",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+          },
+        }).showToast();
+      },
+    });
+  });
 });
