@@ -63,6 +63,11 @@
       href="../../../assets/vendor/simple-datatables/style.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     <!-- Template Main CSS File -->
     <link href="../../../assets/css/style.css" rel="stylesheet" />
   </head>
@@ -355,9 +360,13 @@
           <div class="card recent-sales overflow-auto">
                   <div class="card-header">
                       <p class="text-muted" style="font-size: 12px">Select Project From Dropdown and Press Enter to Add</p>
-                      <div class="form-floating" style="height:50px;">
-                        <input type="text" class="form-control" placeholder="Leave a Description here" id="descriptionTextArea" />
+                      <div class="form-floating  position-relative dropdown" style="height:50px;">
+                        <?php
+                          echo '<input id="projectInput"  type="text" class="form-control" data-photo-id="'.$photoId.'" placeholder="Add Project"/>';
+                        ?>
                         <label for="floatingTextarea">Project id or Name</label>
+                        <ul id="project-menu-list" class="dropdown-menu">
+                        </ul>
                       </div>
                   </div>
                   <div class="card-body">
@@ -381,62 +390,64 @@
                       </thead>
                       <tbody>
                         <?php 
-                          
-                          echo '<tr>
-                          <th scope="row"><a href="#">#1</a></th>
-                          <td>
-                            <a
-                              href="#"
-                              class="text-primary text-decoration-underline"
-                            >
-                            Jamal
-                            </a>
-                            
-                          </td>
-                          <td>
-                            <div class="">
-                              <i class="bx bx-envelope"></i>
-                              Jamal
-                            </div>
-                            <div class="">
-                              <i class="bx bx-envelope"></i>
-                              Jamal
-                            </div>
-                          </td>
-                          <td>
-                            Jamal
-                          </td>
-                          <td>
-                            Jamal
-                          </td>
-                          <td>
-                            Jamal
-                          </td>
-                          <td>
-                            Jamal
-                          </td>
-                          <td>
-                            <div class="d-flex">
-                              <a
-                                class="icon"
-                                href="#"
-                                data-bs-toggle="dropdown"
-                              >
-                                <i
-                                  class="bx bx-dots-horizontal-rounded fs-5"
-                                ></i>
-                              </a>
-                              <ul
-                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                              >
-                                <li>
-                                  <a class="dropdown-item delete-project-user" style="cursor: pointer;" data-project-id="" data-user-id="">Delete</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </td>
-                        </tr>';
-                        
+                          $projects = getProjectsByPhotoId($photoId);
+
+                          foreach($projects as $project){
+                            echo '<tr>
+                                    <th scope="row"><a href="#">#'.$project['id'].'</a></th>
+                                    <td>
+                                      <a
+                                        href="#"
+                                        class="text-primary text-decoration-underline"
+                                      >
+                                      '.$project['name'].'
+                                      </a>
+                                      
+                                    </td>
+                                    <td>
+                                      <div class="">
+                                        <i class="bx bx-envelope"></i>
+                                        '.$project['addressOne'].'
+                                      </div>
+                                      <div class="">
+                                        <i class="bx bx-envelope"></i>
+                                        '.$project['addressTwo'].'
+                                      </div>
+                                    </td>
+                                    <td>
+                                    '.$project['state'].'
+                                    </td>
+                                    <td>
+                                    '.$project['city'].'
+                                    </td>
+                                    <td>
+                                    '.$project['postalCode'].'
+                                    </td>
+                                    <td>
+                                    '.convertTime($project['lastActivity']).'
+                                    </td>
+                                    <td>
+                                      <div class="d-flex">
+                                        <a
+                                          class="icon"
+                                          href="#"
+                                          data-bs-toggle="dropdown"
+                                        >
+                                          <i
+                                            class="bx bx-dots-horizontal-rounded fs-5"
+                                          ></i>
+                                        </a>
+                                        <ul
+                                          class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                                        >
+                                          <li>
+                                            <a class="dropdown-item delete-project-photo" style="cursor: pointer;" data-project-id="'.$project['id'].'" data-photo-id="'.$photoId.'">Delete</a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </td>
+                                  </tr>';
+                          }
                         ?>
                       </tbody>
                     </table>
@@ -446,10 +457,15 @@
                 <div class="card recent-sales overflow-auto col-12 col-md-6">
                   <div class="card-header">
                       <p class="text-muted" style="font-size: 12px">Write Tag and Press Enter to Add</p>
-                      <div class="form-floating" style="height:50px;">
-                        <input type="text" class="form-control" placeholder="Leave a Description here" id="descriptionTextArea" />
+                      <div class="form-floating position-relative dropdown" style="height:50px;">
+                        <?php
+                          echo '<input id="tagInput" type="text" class="form-control" placeholder="Enter Tags" data-photo-id="'.$photoId.'" />';
+                        ?>
                         <label for="floatingTextarea">Add Tag</label>
+                        <ul id="tags-menu-list" class="dropdown-menu">
+                        </ul>
                       </div>
+                      
                   </div>
                   <div class="card-body">
                     <h2 class="card-title fs-2">
@@ -466,40 +482,43 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php 
-                          
-                          echo '<tr>
-                          <th scope="row"><a href="#">#1</a></th>
-                          <td>
-                            <a
-                              href="#"
-                              class="text-primary text-decoration-underline"
-                            >
-                            Jamal
-                            </a>
-                            
-                          </td>
-                          <td>
-                            <div class="d-flex">
+                        <?php   
+                          $tags = getTagsByPhotoId($photoId);
+                          foreach($tags as $tag){
+                            echo '<tr>
+                            <th scope="row"><a href="#">#'.$tag['id'].'</a></th>
+                            <td>
                               <a
-                                class="icon"
                                 href="#"
-                                data-bs-toggle="dropdown"
+                                class="text-primary text-decoration-underline"
                               >
-                                <i
-                                  class="bx bx-dots-horizontal-rounded fs-5"
-                                ></i>
+                              '.$tag['Tag'].'
                               </a>
-                              <ul
-                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                              >
-                                <li>
-                                  <a class="dropdown-item delete-project-user" style="cursor: pointer;" data-project-id="" data-user-id="">Delete</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </td>
-                        </tr>';
+                              
+                            </td>
+                            <td>
+                              <div class="d-flex">
+                                <a
+                                  class="icon"
+                                  href="#"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <i
+                                    class="bx bx-dots-horizontal-rounded fs-5"
+                                  ></i>
+                                </a>
+                                <ul
+                                  class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                                >
+                                  <li>
+                                    <a class="dropdown-item delete-photo-tag" style="cursor: pointer;" data-photo-id="'.$photoId.'" data-tag="'.$tag['Tag'].'">Delete</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </td>
+                          </tr>';
+                          }
+                          
                         
                         ?>
                       </tbody>
@@ -574,11 +593,7 @@
     </div>
 
     <!-- Vendor JS Files -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -590,7 +605,11 @@
       crossorigin="anonymous"
     ></script>
     <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
-
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    
     <!-- Image Editor Toast JS Files -->
     <script
       type="text/javascript"

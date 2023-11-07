@@ -313,4 +313,128 @@ function getImageById($imageId){
     $stmt->close();
     return $image;
 }
+
+
+function searchTags($tags){
+    global $conn;
+    $stmt = $conn->prepare("SELECT DISTINCT Tag FROM Tags WHERE tag LIKE ? LIMIT 10");
+    $stmt->bind_param("s", $tags);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $result;
+}
+
+
+function searchProject($projectNameID, $userId){
+    global $conn;
+    $stmt = $conn->prepare('SELECT * FROM (
+        SELECT P.id, P.name, P.state, P.city, P.postalCode FROM Projects AS P
+        INNER JOIN `Project Users` AS U ON P.id = U.project
+        WHERE U.user = ? AND P.name LIKE ?
+        
+        UNION
+        
+        SELECT id, name, state, city, postalCode FROM `projects`
+        WHERE user = ? AND name LIKE ?
+    ) AS combined_result;');
+    $stmt->bind_param("isis",$userId, $projectNameID, $userId, $projectNameID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $result;
+}
+
+function addProjectToPhoto($projectId, $photoId){
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO `Project Photos` ( photo, project) VALUES (?, ?)");
+    $stmt->bind_param("ii", $projectId, $photoId);
+    try {
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        } else {
+            $stmt->close();
+            return "☠️ Unexpected Error Occur";
+        }
+    } catch (Exception $e) {
+        return "🚫 Project Already Added"; 
+    }
+}
+
+function addTagToPhoto($tag, $photoId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Tags WHERE tag = ? AND photo = ?");
+    $stmt->bind_param("si", $tag, $photoId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    if(count($result) > 0){
+        return "🚫 Tag Already Added";
+    } else {
+        $stmt = $conn->prepare("INSERT INTO `Tags` ( tag, photo) VALUES (?, ?)");
+        $stmt->bind_param("si", $tag, $photoId);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        } else {
+            $stmt->close();
+            return false;
+        }
+    }
+}
+
+function getProjectsByPhotoId($photoId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT P.id, P.name, P.addressOne, P.addressTwo, P.state, P.city, P.postalCode, P.lastActivity FROM Projects AS P
+        INNER JOIN `Project Photos` AS U ON P.id = U.project
+        WHERE U.photo = ?");
+    $stmt->bind_param("i", $photoId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $result;
+}
+
+function getTagsByPhotoId($photoId){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM Tags WHERE photo = ?");
+    $stmt->bind_param("i", $photoId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $result;
+}
+
+
+function deletePhotoTag($tag, $photoId){
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM Tags WHERE tag = ? AND photo = ?");
+    $stmt->bind_param("si", $tag, $photoId);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true; 
+    } else {
+        $stmt->close();
+        return false; 
+    }
+}
+
+function deletePhotoFromProject($projectId, $photoId){
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM `Project Photos` WHERE project = ? AND photo = ?");
+    $stmt->bind_param("ii", $projectId, $photoId);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true; 
+    } else {
+        $stmt->close();
+        return false; 
+    }
+}
 ?>

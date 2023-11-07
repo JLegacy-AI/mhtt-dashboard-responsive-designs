@@ -100,6 +100,45 @@ $(document).ready(function () {
     $("#save-updated-image").click(function () {
       const canvas = $(".lower-canvas")[0];
       const dataURL = canvas.toDataURL("image/png");
+
+      $.ajax({
+        method: "POST",
+        url: "../../../api/update_image.php",
+        data: {
+          imageUrl: imageUrl,
+          image: dataURL,
+        },
+        success: (response) => {
+          Toastify({
+            text: response["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#4CAF50",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload(true);
+          }, 1000);
+        },
+        error: (error) => {
+          console.log(error);
+          Toastify({
+            text: error.responseJSON["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
     });
     $(".tui-image-editor-header").remove();
     $(".tui-image-editor-download-btn").html(`<i class="bi bi-download"></i>`);

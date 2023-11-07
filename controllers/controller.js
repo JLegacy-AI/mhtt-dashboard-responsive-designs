@@ -508,5 +508,296 @@ $(document).ready(function () {
     });
   });
 
-  $("#editPhoto").click(function () {});
+  $("#tagInput").on("keyup", function (event) {
+    if (event.keyCode === 13) {
+      if (event.target.value) {
+        $.ajax({
+          url: "../../../api/add_tag_to_photo.php",
+          data: {
+            tag: event.target.value,
+            photoId: $(this).data("photo-id"),
+          },
+          method: "POST",
+          success: function (response) {
+            console.log(response);
+            Toastify({
+              text: response.message,
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "#4CAF50",
+              },
+            }).showToast();
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
+          },
+          error: function (error) {
+            console.log(error);
+            Toastify({
+              text: error.responseJSON["message"],
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+              },
+            }).showToast();
+          },
+        });
+      } else {
+        Toastify({
+          text: "🚫 Tag is Empty",
+          className: "info",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "white",
+            color: "black",
+          },
+        }).showToast();
+      }
+    } else {
+      $.ajax({
+        url: "../../../api/search_tags.php",
+        data: {
+          tag: $(this).val(),
+        },
+        method: "POST",
+        success: function (response) {
+          $("#tags-menu-list").html("");
+          response["tags"].forEach((tag) => {
+            $("#tags-menu-list").append(
+              `<li><p class="dropdown-item tag-dropdown-item" data-target-tag-id="${tag["id"]}" data-target-tag="${tag["Tag"]}">${tag["Tag"]}</p></li>`
+            );
+          });
+          $(".tag-dropdown-item").click(function () {
+            const tag = $(this).data("target-tag");
+            $("#tagInput").val(tag);
+            $("#tags-menu-list").removeClass("show");
+          });
+          $("#tags-menu-list").addClass("show");
+        },
+        error: function (error) {
+          Toastify({
+            text: error.responseJSON["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    }
+  });
+  $("#projectInput").on("keyup", function (event) {
+    if (event.keyCode === 13) {
+      if (!$(this).val()) {
+        Toastify({
+          text: "🚫 Empty not Allowed",
+          className: "info",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "white",
+            color: "black",
+          },
+        }).showToast();
+      } else if (isNaN($(this).val())) {
+        Toastify({
+          text: "🚫 Only Numbers are allowed",
+          className: "info",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "white",
+            color: "black",
+          },
+        }).showToast();
+      } else {
+        $.ajax({
+          url: "../../../api/add_project_to_photo.php",
+          data: {
+            projectId: Number($(this).val()),
+            photoId: $(this).data("photo-id"),
+          },
+          method: "POST",
+          success: function (response) {
+            // console.log(response);
+            Toastify({
+              text: response.message,
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "#4CAF50",
+              },
+            }).showToast();
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
+          },
+          error: function (error) {
+            // console.log(error);
+            Toastify({
+              text: error.responseJSON["message"],
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+              },
+            }).showToast();
+          },
+        });
+      }
+    } else {
+      $.ajax({
+        url: "../../../api/search_projects.php",
+        data: {
+          ProjectNameID: $(this).val(),
+        },
+        method: "POST",
+        success: function (response) {
+          console.log(response);
+          $("#project-menu-list").html("");
+          response["projects"].forEach((project) => {
+            $("#project-menu-list").append(
+              `<li><p class="dropdown-item project-dropdown-item" data-project-id="${project["id"]}">${project["name"]},${project["state"]},${project["city"]},${project["postalCode"]},</p></li>`
+            );
+          });
+          $(".project-dropdown-item").click(function () {
+            const id = $(this).data("project-id");
+            $("#projectInput").val(id);
+            $("#project-menu-list").removeClass("show");
+          });
+          $("#project-menu-list").addClass("show");
+        },
+        error: function (error) {
+          Toastify({
+            text: error.responseJSON["message"],
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    }
+  });
+
+  $(".delete-photo-tag").each(function (index, element) {
+    $(element).on("click", function () {
+      const data = {
+        tag: $(this).data("tag"),
+        photoId: $(this).data("photo-id"),
+      };
+
+      $.ajax({
+        url: "../../../api/delete_photo_tag.php",
+        data: data,
+        method: "POST",
+        success: (response) => {
+          Toastify({
+            text: response.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#4CAF50",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+        error: (error) => {
+          Toastify({
+            text: error.responseJSON.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    });
+  });
+
+  $(".delete-project-photo").each(function (index, element) {
+    $(element).on("click", function () {
+      const data = {
+        projectId: $(this).data("project-id"),
+        photoId: $(this).data("photo-id"),
+      };
+
+      console.log(data);
+
+      $.ajax({
+        method: "POST",
+        url: "../../../api/delete_project_photo.php",
+        data: data,
+        success: (response) => {
+          console.log(response);
+          Toastify({
+            text: response.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#4CAF50",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        },
+        error: (error) => {
+          console.log(error);
+          Toastify({
+            text: error.responseJSON.message,
+            className: "info",
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+            },
+          }).showToast();
+        },
+      });
+    });
+  });
 });
