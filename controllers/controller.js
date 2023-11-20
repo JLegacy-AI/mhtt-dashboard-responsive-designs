@@ -242,13 +242,18 @@ $(document).ready(function () {
     const usernameEmail = $(this).val();
     if (usernameEmail.length > 0) {
       $("#user-menu-list").html("");
+      console.log(usernameEmail);
       $.ajax({
-        url: "../../../api/user_search.php",
+        url:
+          $(this).data("page") == "user"
+            ? "../../api/user_search.php"
+            : "../../../api/user_search.php",
         method: "POST",
         data: {
           usernameEmail: usernameEmail,
         },
         success: function (response) {
+          console.log(response);
           if (response["user"].length > 0) {
             $("#userList").html("");
             response["user"].forEach((user) => {
@@ -281,6 +286,7 @@ $(document).ready(function () {
           }
         },
         error: function (error) {
+          console.log(error);
           Toastify({
             text: error.responseJSON["message"],
             className: "info",
@@ -938,6 +944,64 @@ $(document).ready(function () {
           },
         }).showToast();
       },
+    });
+  });
+
+  $("#add-employee-form").each(function (index, form) {
+    $(form).submit(function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      } else {
+        event.preventDefault();
+
+        const data = {
+          username: $("#username").val(),
+          managerId: $("#username").data("manager-id"),
+        };
+
+        console.log(data);
+
+        $.ajax({
+          url: "../../api/add_user_employee.php",
+          method: "POST",
+          data: data,
+          success: function (response) {
+            console.log(response);
+            Toastify({
+              text: response["message"],
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "#4CAF50",
+              },
+            }).showToast();
+            if (response["message"]) {
+              // setTimeout(() => {
+              //   location.reload();
+              // }, 1000);
+            }
+          },
+          error: function (error) {
+            Toastify({
+              text: error.responseJSON.message,
+              className: "info",
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "linear-gradient(to bottom, #FF6B6B, #FF4444)",
+              },
+            }).showToast();
+          },
+        });
+      }
+
+      $(form).addClass("was-validated");
     });
   });
 });
