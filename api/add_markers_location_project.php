@@ -1,0 +1,26 @@
+<?php
+
+include '../includes/db_functions.php';
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $projectId = $_POST["projectId"];
+    $location = $_POST["location"];
+    $result = addLocations($projectId, $location);
+    if ($result) {
+        http_response_code(200); // Set a 200 
+        header("Content-Type: application/json");
+        echo json_encode(["message" => "Location Added successfully"]);
+    } else {
+        http_response_code(400); // Set a 400
+        header("Content-Type: application/json");
+        echo json_encode(["message" => "Something went Wrong"]);
+    }
+
+} else {
+    http_response_code(500); // Set a 500 
+    header("Content-Type: application/json");
+    echo json_encode(["message" => "Internal Server Error"]);
+}
+?>

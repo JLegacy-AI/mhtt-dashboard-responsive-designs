@@ -1,6 +1,5 @@
 <?php
 include 'db_connection.php';
-// include 'utils.php';
 
 // Function to insert a user into the database
 function insertUser($email, $password, $username, $firstname, $lastname, $phonenumber)
@@ -598,5 +597,34 @@ function getAllEmployees($userId)
     return $users;
 }
 
+function addLocations($projectId, $location)
+{
+    global $conn;
+    $projectId = intval($projectId);
+    $location = "MULTIPOINT(" . $location . ")";
+    $stmt = $conn->prepare("UPDATE projects SET markers = ST_GeomFromText(?) WHERE id = ?;");
+    $stmt->bind_param("si", $location, $projectId);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true;
+    } else {
+        $stmt->close();
+        return false;
+    }
+
+}
+
+
+function getMarkersLocation($projectId)
+{
+    global $conn;
+    $stmt = $conn->prepare("SELECT ST_AsText(markers) as marks FROM projects WHERE id = ?;");
+    $stmt->bind_param("i", $projectId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $markers = $result->fetch_assoc();
+    $stmt->close();
+    return $markers;
+}
 
 ?>

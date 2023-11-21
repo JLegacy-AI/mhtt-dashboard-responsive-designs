@@ -6,7 +6,6 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (checkToken($_SESSION["token"]) == null)
   header("Location: ../../");
-
 ?>
 
 
@@ -359,6 +358,7 @@ if (checkToken($_SESSION["token"]) == null)
               echo '<div class="col-xxl-4 col-lg-6 col-md-12">
                       <div class="card info-card sales-card">
                         <div class="filter">
+                         
                           <a class="icon" href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-three-dots"></i>
                           </a>
@@ -412,7 +412,16 @@ if (checkToken($_SESSION["token"]) == null)
                                 </div>
                               </div>
                             </div>
+                            <div class="card-footer d-flex justify-content-start"> 
+                              <button class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . ' data-bs-target="#pointMapModal" data-bs-toggle="modal">
+                                <i class="bx bx-map fs-5 "></i>
+                              </button>
+                              <button class="btn btn-primary ms-2  px-2 py-1 text-light geofence-location-btn" data-project-id=' . $project['id'] . ' data-bs-target="#geofenceModal" data-bs-toggle="modal">
+                                <i class="bx bx-shape-polygon fs-5" ></i>
+                              </button>
+                            </div>
                           </div>
+                          
                         </div>';
             }
 
@@ -439,6 +448,68 @@ if (checkToken($_SESSION["token"]) == null)
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
+  <!-- Modals -->
+  <!-- Point Map Modal -->
+  <div class="modal fade" id="pointMapModal" aria-hidden="true" aria-labelledby="pointMapModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-nowrap " id="pointMapModalLabel">
+            <i class="bx bx-map fs-5 text-danger"></i> Location Map
+          </h1>
+          <input type="Text" class="form-control mx-3" id="addressSearch" placeholder="Address...">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body w-100 h-100">
+          <div id="locationMap" class="w-100 h-100"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="add-markers-location" class="btn btn-primary">Add Locations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Geofence Map Modal -->
+  <div class="modal fade " id="geofenceModal" aria-hidden="true" aria-labelledby="geofenceModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="geofenceModalLabel">
+            <i class="bx bx-shape-polygon fs-5 text-danger"></i> Geofence Map
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="geofenceMap"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Add Geofence Locations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- prettier-ignore -->
+  <script>(g => {
+      var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
+      b = b[c] || (b[c] = {});
+      var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {
+        await (a = m.createElement("script"));
+        e.set("libraries", [...r, 'places'] + ""); // Add 'places' to include the Places API
+        for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+        e.set("callback", c + ".maps." + q);
+        a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+        d[q] = f;
+        a.onerror = () => h = n(Error(p + " could not load."));
+        a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+        m.head.append(a);
+      }));
+      d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n));
+    })
+      ({ key: "AIzaSyA0iKmisEWJWWvZCCNem16Ii7aJS8_lo6o" });</script>
+
+
   <!-- Vendor JS Files -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -454,6 +525,12 @@ if (checkToken($_SESSION["token"]) == null)
   <script src="../../assets/js/main.js"></script>
   <script src="../../controllers/controller.js"></script>
   <script src="../../controllers/ajaxControllers.js"></script>
+  <script src="../../controllers/locationMap.js"></script>
+  <style>
+    .pac-container {
+      z-index: 100000 !important;
+    }
+  </style>
 </body>
 
 </html>

@@ -44,4 +44,23 @@ function decode($data)
     return $decryptedData;
 }
 
+function convert_multipoints_text_point($multiPointString)
+{
+    $pointString = str_replace(['MULTIPOINT((', '))'], '', $multiPointString);
+
+    // Split the remaining string into individual point strings
+    $pointStrings = explode('),(', $pointString);
+
+    // Initialize an array to store points
+    $points = [];
+
+    // Loop through each point string and extract latitude and longitude
+    foreach ($pointStrings as $pointString) {
+        list($latitude, $longitude) = explode(' ', $pointString);
+        $points[] = ['lat' => floatval($latitude), 'lng' => floatval($longitude)];
+    }
+
+    return $points;
+}
+
 ?>
