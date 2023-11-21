@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  console.log(document.getElementById("locationMap"));
   let map;
   let markers = [];
   let projectId;
@@ -44,7 +43,6 @@ $(document).ready(function () {
       let i, place;
       for (i = 0; (place = places[i]); i++) {
         bounds.extend(place.geometry.location);
-        console.log(places.name);
       }
       map.fitBounds(bounds);
       map.setZoom(15);

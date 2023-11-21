@@ -416,7 +416,7 @@ if (checkToken($_SESSION["token"]) == null)
                               <button class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . ' data-bs-target="#pointMapModal" data-bs-toggle="modal">
                                 <i class="bx bx-map fs-5 "></i>
                               </button>
-                              <button class="btn btn-primary ms-2  px-2 py-1 text-light geofence-location-btn" data-project-id=' . $project['id'] . ' data-bs-target="#geofenceModal" data-bs-toggle="modal">
+                              <button id="geofence-location-btn" class="btn btn-primary ms-2  px-2 py-1 text-light" data-project-id=' . $project['id'] . ' data-bs-target="#geofenceModal" data-bs-toggle="modal">
                                 <i class="bx bx-shape-polygon fs-5" ></i>
                               </button>
                             </div>
@@ -470,25 +470,6 @@ if (checkToken($_SESSION["token"]) == null)
     </div>
   </div>
 
-  <!-- Geofence Map Modal -->
-  <div class="modal fade " id="geofenceModal" aria-hidden="true" aria-labelledby="geofenceModalLabel" tabindex="-1">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="geofenceModalLabel">
-            <i class="bx bx-shape-polygon fs-5 text-danger"></i> Geofence Map
-          </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div id="geofenceMap"></div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary">Add Geofence Locations</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- prettier-ignore -->
   <script>(g => {
@@ -496,7 +477,7 @@ if (checkToken($_SESSION["token"]) == null)
       b = b[c] || (b[c] = {});
       var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {
         await (a = m.createElement("script"));
-        e.set("libraries", [...r, 'places'] + ""); // Add 'places' to include the Places API
+        e.set("libraries", [...r, 'places', 'drawing'] + ""); // Add 'places' to include the Places API
         for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
         e.set("callback", c + ".maps." + q);
         a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
@@ -521,11 +502,35 @@ if (checkToken($_SESSION["token"]) == null)
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
+
+  <!-- Geofence Map Modal -->
+  <div class="modal fade " id="geofenceModal" aria-hidden="true" aria-labelledby="geofenceModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-nowrap" id="geofenceModalLabel">
+            <i class="bx bx-shape-polygon fs-5 text-danger"></i> Geofence Map
+          </h1>
+          <input id="addressSearchGeofence" type="Text" class="form-control mx-3" placeholder="Address...">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body w-100 h-100">
+          <div id="info" style="position:absolute; color:red; font-family: Arial; height:200px; font-size: 12px;"></div>
+          <div id="geofenceMap" class="w-100 h-100"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="add-geofence-location" class="btn btn-primary">Add Geofence Locations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Main JS File -->
   <script src="../../assets/js/main.js"></script>
   <script src="../../controllers/controller.js"></script>
   <script src="../../controllers/ajaxControllers.js"></script>
   <script src="../../controllers/locationMap.js"></script>
+  <script src="../../controllers/polygonGeofenceMap.js"></script>
   <style>
     .pac-container {
       z-index: 100000 !important;
