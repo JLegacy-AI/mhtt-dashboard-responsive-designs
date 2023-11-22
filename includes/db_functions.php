@@ -627,4 +627,33 @@ function getMarkersLocation($projectId)
     return $markers;
 }
 
+function addGeofence($projectId, $geofence)
+{
+    global $conn;
+    $projectId = intval($projectId);
+    $geofence = "MULTIPOINT(" . $geofence . ")";
+    $stmt = $conn->prepare("UPDATE projects SET geofence = ST_GeomFromText(?) WHERE id = ?;");
+    $stmt->bind_param("si", $geofence, $projectId);
+
+    if ($stmt->execute()) {
+        $stmt->close();
+        return true;
+    } else {
+        $stmt->close();
+        return false;
+    }
+}
+
+function getGeofence($projectId)
+{
+    global $conn;
+    $stmt = $conn->prepare("SELECT ST_AsText(geofence) as marks FROM projects WHERE id = ?;");
+    $stmt->bind_param("i", $projectId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $markers = $result->fetch_assoc();
+    $stmt->close();
+    return $markers;
+}
+
 ?>

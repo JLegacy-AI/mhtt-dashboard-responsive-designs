@@ -126,7 +126,6 @@ $(document).ready(function () {
       for (var i = 0; i < len; i++) {
         coordinates.push(newShape.getPath().getAt(i).toUrlValue(6));
       }
-      document.getElementById("info").innerHTML = coordinates;
     };
 
     google.maps.event.addListener(
@@ -181,67 +180,83 @@ $(document).ready(function () {
     );
   }
 
-  InitMap();
-
   $("#geofence-location-btn").click(function () {
     projectId = $(this).data("project-id");
-    console.log(projectId);
+    const data = {
+      projectId: projectId,
+    };
+
+    $.ajax({
+      url: "../../api/get_geofence_project.php",
+      method: "GET",
+      data: data,
+      success: (response) => {
+        const geofence = response["geofence"];
+        if (geofence) {
+          coordinates = geofence.map(
+            (coordinate) => coordinate["lat"] + "," + coordinate["lng"]
+          );
+        }
+        InitMap();
+      },
+      error: (error) => {
+        Toastify({
+          text: "🚩 Geofence Not Found...",
+          className: "error",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#4CAF50",
+          },
+        }).showToast();
+      },
+    });
   });
 
   $("#add-geofence-location").on("click", function () {
-    console.log(coordinates);
+    let cordination = "";
+    coordinates.forEach((coordinate, index) => {
+      console.log(index);
+      cordination +=
+        coordinate.replace(",", " ") +
+        (index != coordinates.length - 1 ? "," : "");
+    });
+    // console.log(cordination);
+    $.ajax({
+      url: "../../api/add_geofence_project.php",
+      data: {
+        projectId: projectId,
+        geofence: cordination,
+      },
+      method: "POST",
+      success: (response) => {
+        Toastify({
+          text: response["message"],
+          className: "success",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#4CAF50",
+          },
+        }).showToast();
+      },
+      error: (error) => {
+        Toastify({
+          text: "🚩 Error Occured...",
+          className: "error",
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#4CAF50",
+          },
+        }).showToast();
+      },
+    });
   });
-
-  //   let map;
-  //   let points = [];
-  //   let projectId;
-
-  //   async function initMap() {
-  //     const { Map } = await google.maps.importLibrary("maps");
-  //     console.log(document.getElementById("geofenceMap"));
-  //     map = new Map(document.getElementById("geofenceMap"), {
-  //       center: {
-  //         lat: 39.60204162671823,
-  //         lng: -101.40006299070782,
-  //       },
-  //       zoom: 5,
-  //     });
-
-  //     map.addListener("click", (event) => {
-  //       console.log(markers);
-  //       if (event.placeId == undefined) {
-  //         console.log(event.latLng);
-  //       } else {
-  //         Toastify({
-  //           text: "🚩 Place Marker Aside Then Drag over the Location",
-  //           className: "info",
-  //           close: true,
-  //           gravity: "top",
-  //           position: "right",
-  //           stopOnFocus: true,
-  //           style: {
-  //             background: "#4CAF50",
-  //           },
-  //         }).showToast();
-  //       }
-  //     });
-
-  //     const searchBox = new google.maps.places.SearchBox(
-  //       document.getElementById("addressSearchGeofence")
-  //     );
-
-  //     google.maps.event.addListener(searchBox, "places_changed", () => {
-  //       const places = searchBox.getPlaces();
-  //       const bounds = new google.maps.LatLngBounds();
-  //       let i, place;
-  //       for (i = 0; (place = places[i]); i++) {
-  //         bounds.extend(place.geometry.location);
-  //         console.log(places.name);
-  //       }
-  //       map.fitBounds(bounds);
-  //       map.setZoom(15);
-  //     });
-  //   }
-
-  //   initMap();
 });
