@@ -668,7 +668,7 @@ $project = getProjectByID(trim(decode($_GET["pid"])));
       }));
       d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n));
     })
-      ({ key: "AIzaSyA0iKmisEWJWWvZCCNem16Ii7aJS8_lo6o" });</script>
+      ({ key: "API_KEY" });</script>
 
 
   <!-- Vendor JS Files -->
