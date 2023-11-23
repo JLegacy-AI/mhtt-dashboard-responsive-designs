@@ -413,10 +413,10 @@ if (checkToken($_SESSION["token"]) == null)
                               </div>
                             </div>
                             <div class="card-footer d-flex justify-content-start"> 
-                              <button class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . ' data-bs-target="#pointMapModal" data-bs-toggle="modal">
+                              <button class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . ' data-url="../../api/get_project_markers.php" data-bs-target="#pointMapModal" data-bs-toggle="modal">
                                 <i class="bx bx-map fs-5 "></i>
                               </button>
-                              <button id="geofence-location-btn" class="btn btn-primary ms-2  px-2 py-1 text-light" data-project-id=' . $project['id'] . ' data-bs-target="#geofenceModal" data-bs-toggle="modal">
+                              <button id="geofence-location-btn" class="btn btn-primary ms-2  px-2 py-1 text-light" data-project-id=' . $project['id'] . ' data-url="../../api/get_geofence_project.php" data-bs-target="#geofenceModal" data-bs-toggle="modal">
                                 <i class="bx bx-shape-polygon fs-5" ></i>
                               </button>
                             </div>
@@ -464,7 +464,9 @@ if (checkToken($_SESSION["token"]) == null)
           <div id="locationMap" class="w-100 h-100"></div>
         </div>
         <div class="modal-footer">
-          <button id="add-markers-location" class="btn btn-primary">Add Locations</button>
+          <button id="add-markers-location" data-url="../../api/add_markers_location_project.php"
+            class="btn btn-primary">Add
+            Locations</button>
         </div>
       </div>
     </div>
@@ -519,7 +521,8 @@ if (checkToken($_SESSION["token"]) == null)
           <div id="geofenceMap" class="w-100 h-100"></div>
         </div>
         <div class="modal-footer">
-          <button id="add-geofence-location" class="btn btn-primary">Add Geofence Locations</button>
+          <button id="add-geofence-location" data-url="../../api/add_geofence_project.php" class="btn btn-primary">Add
+            Geofence Locations</button>
         </div>
       </div>
     </div>

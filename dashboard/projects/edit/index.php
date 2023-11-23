@@ -1,516 +1,442 @@
 <?php
-  include "../../../includes/utils.php";
-  include "../../../includes/db_functions.php";
-  if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-  }
-  if(checkToken($_SESSION["token"]) == null || !isset($_GET["pid"]) || empty($_GET["pid"]))
-    header("Location: ../../../");
-  
-  $project = getProjectByID(trim(decode($_GET["pid"])));
+include "../../../includes/utils.php";
+include "../../../includes/db_functions.php";
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+if (checkToken($_SESSION["token"]) == null || !isset($_GET["pid"]) || empty($_GET["pid"]))
+  header("Location: ../../../");
+
+$project = getProjectByID(trim(decode($_GET["pid"])));
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Project | Edit | MHTT</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <!-- Favicons -->
-    <link href="../../../assets/img/favicon.png" rel="icon" />
-    <link
-      href="../../../assets/img/apple-touch-icon.png"
-      rel="apple-touch-icon"
-    />
+  <title>Project | Edit | MHTT</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
+  <!-- Favicons -->
+  <link href="../../../assets/img/favicon.png" rel="icon" />
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <link
-      href="../../../assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../../../assets/vendor/boxicons/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../../../assets/vendor/remixicon/remixicon.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../../../assets/vendor/simple-datatables/style.css"
-      rel="stylesheet"
-    />
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-    />
-    <!-- Template Main CSS File -->
-    <link href="../../../assets/css/style.css" rel="stylesheet" />
-  </head>
-  <body>
-  
-    <!-- ======= Header ======= -->
-    <header id="header" class="header fixed-top d-flex align-items-center">
-      <div class="d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center">
-          <img src="../../../assets/img/logo.png" alt="" />
-          <span class="d-none d-lg-block">MHTT</span>
-        </a>
-        <i class="bi bi-list toggle-sidebar-btn"></i>
-      </div>
-      <!-- End Logo -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link href="../../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="../../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="../../../assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="../../../assets/vendor/simple-datatables/style.css" rel="stylesheet" />
 
-      <div class="search-bar">
-        <form
-          class="search-form d-flex align-items-center"
-          method="POST"
-          action="#"
-        >
-          <input
-            type="text"
-            name="query"
-            placeholder="Search"
-            title="Enter search keyword"
-          />
-          <button type="submit" title="Search">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <!-- Template Main CSS File -->
+  <link href="../../../assets/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="../../../assets/img/logo.png" alt="" />
+        <span class="d-none d-lg-block">MHTT</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword" />
+        <button type="submit" title="Search">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
+    <!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item d-block">
+          <a class="nav-link nav-icon search-bar-toggle" href="#">
             <i class="bi bi-search"></i>
-          </button>
-        </form>
-      </div>
-      <!-- End Search Bar -->
+          </a>
+        </li>
+        <!-- End Search Icon-->
 
-      <nav class="header-nav ms-auto">
-        <ul class="d-flex align-items-center">
-          <li class="nav-item d-block">
-            <a class="nav-link nav-icon search-bar-toggle" href="#">
-              <i class="bi bi-search"></i>
-            </a>
-          </li>
-          <!-- End Search Icon-->
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">4</span> </a><!-- End Notification Icon -->
 
-          <li class="nav-item dropdown">
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-              <i class="bi bi-bell"></i>
-              <span class="badge bg-primary badge-number">4</span> </a
-            ><!-- End Notification Icon -->
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              You have 4 new notifications
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
 
-            <ul
-              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
-            >
-              <li class="dropdown-header">
-                You have 4 new notifications
-                <a href="#"
-                  ><span class="badge rounded-pill bg-primary p-2 ms-2"
-                    >View all</span
-                  ></a
-                >
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4>Lorem Ipsum</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>30 min. ago</p>
+              </div>
+            </li>
 
-              <li class="notification-item">
-                <i class="bi bi-exclamation-circle text-warning"></i>
-                <div>
-                  <h4>Lorem Ipsum</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>30 min. ago</p>
-                </div>
-              </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
 
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
+            <li class="notification-item">
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                <h4>Atque rerum nesciunt</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>1 hr. ago</p>
+              </div>
+            </li>
 
-              <li class="notification-item">
-                <i class="bi bi-x-circle text-danger"></i>
-                <div>
-                  <h4>Atque rerum nesciunt</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>1 hr. ago</p>
-                </div>
-              </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
 
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>Sit rerum fuga</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>2 hrs. ago</p>
+              </div>
+            </li>
 
-              <li class="notification-item">
-                <i class="bi bi-check-circle text-success"></i>
-                <div>
-                  <h4>Sit rerum fuga</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>2 hrs. ago</p>
-                </div>
-              </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
 
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                <h4>Dicta reprehenderit</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </li>
 
-              <li class="notification-item">
-                <i class="bi bi-info-circle text-primary"></i>
-                <div>
-                  <h4>Dicta reprehenderit</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Show all notifications</a>
+            </li>
+          </ul>
+          <!-- End Notification Dropdown Items -->
+        </li>
+        <!-- End Notification Nav -->
 
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li class="dropdown-footer">
-                <a href="#">Show all notifications</a>
-              </li>
-            </ul>
-            <!-- End Notification Dropdown Items -->
-          </li>
-          <!-- End Notification Nav -->
+        <!-- End Messages Nav -->
 
-          <!-- End Messages Nav -->
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="../../../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" />
+            <span class="d-none d-md-block dropdown-toggle ps-2">
+              <?php
+              $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+              $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+              echo $fullName;
+              ?>
+            </span> </a><!-- End Profile Iamge Icon -->
 
-          <li class="nav-item dropdown pe-3">
-            <a
-              class="nav-link nav-profile d-flex align-items-center pe-0"
-              href="#"
-              data-bs-toggle="dropdown"
-            >
-              <img
-                src="../../../assets/img/profile-img.jpg"
-                alt="Profile"
-                class="rounded-circle"
-              />
-              <span class="d-none d-md-block dropdown-toggle ps-2"
-                >
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>
                 <?php
-                  $userData = getUserByID(checkToken($_SESSION['token'])['user']);
-                  $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
-                  echo $fullName;
+                $userData = getUserByID(checkToken($_SESSION['token'])['user']);
+                $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
+                echo $fullName;
                 ?>
-                </span
-              > </a
-            ><!-- End Profile Iamge Icon -->
-
-            <ul
-              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
-            >
-              <li class="dropdown-header">
-                <h6>
-                  <?php
-                    $userData = getUserByID(checkToken($_SESSION['token'])['user']);
-                    $fullName = isset($userData['firstName']) && !empty($userData['firstName']) ? $userData['firstName'][0] . ' ' . $userData['lastName'] : '';
-                    echo $fullName;
-                  ?>
-                </h6>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <?php
-                  echo '<a
+              </h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <?php
+              echo '<a
                           class="dropdown-item d-flex align-items-center"
-                          href="../../users/edit?userwiki='.encode(checkToken($_SESSION['token'])['user']).'"
+                          href="../../users/edit?userwiki=' . encode(checkToken($_SESSION['token'])['user']) . '"
                         >
                           <i class="bi bi-person"></i>
                           <span>My Profile</span>
                         </a>'
                 ?>
-              </li>
-              
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-
-              <li>
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="../../../"
-                >
-                  <i class="bi bi-box-arrow-right"></i>
-                  <span>Sign Out</span>
-                </a>
-              </li>
-            </ul>
-            <!-- End Profile Dropdown Items -->
-          </li>
-          <!-- End Profile Nav -->
-        </ul>
-      </nav>
-      <!-- End Icons Navigation -->
-    </header>
-    <!-- End Header -->
-
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-      <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-heading">Pages</li>
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="../../projects/">
-            <i class="bx bx-map-pin"></i>
-            <span>Project</span>
-          </a>
-        </li>
-        <!-- End Projects Page Nav -->
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="../../users/">
-            <i class="bx bx-user"></i>
-            <span>Users</span>
-          </a>
-        </li>
-        <!-- End Users Page Nav -->
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="../../photos/">
-            <i class="bx bx-photo-album"></i>
-            <span>Photos</span>
-          </a>
-        </li>
-        <!-- End Photos Page Nav -->
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="../../map/">
-            <i class="bx bx-map-alt"></i>
-            <span>Maps</span>
-          </a>
-        </li>
-        <!-- End Maps Page Nav -->
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="../../../">
-            <i class="bx bx-arrow-from-right"></i>
-            <span>Logout</span>
-          </a>
-        </li>
-        <!-- End Logout Page Nav -->
-      </ul>
-    </aside>
-
-    <main id="main" class="main">
-      <div class="pagetitle">
-        <div class="d-flex justify-content-between">
-          <h1>Edit Project</h1>
-          
-        </div>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Projects</li>
-            <li class="breadcrumb-item active">
-              <?php
-                  if (isset($project["name"]) && !empty($project["name"])) {
-                      echo $project["name"];
-                  } else {
-                      echo "Not Assigned";
-                  }
-                ?>
             </li>
-          </ol>
-        </nav>
+
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="../../../">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul>
+          <!-- End Profile Dropdown Items -->
+        </li>
+        <!-- End Profile Nav -->
+      </ul>
+    </nav>
+    <!-- End Icons Navigation -->
+  </header>
+  <!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-heading">Pages</li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="../../projects/">
+          <i class="bx bx-map-pin"></i>
+          <span>Project</span>
+        </a>
+      </li>
+      <!-- End Projects Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="../../users/">
+          <i class="bx bx-user"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <!-- End Users Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="../../photos/">
+          <i class="bx bx-photo-album"></i>
+          <span>Photos</span>
+        </a>
+      </li>
+      <!-- End Photos Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="../../map/">
+          <i class="bx bx-map-alt"></i>
+          <span>Maps</span>
+        </a>
+      </li>
+      <!-- End Maps Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="../../../">
+          <i class="bx bx-arrow-from-right"></i>
+          <span>Logout</span>
+        </a>
+      </li>
+      <!-- End Logout Page Nav -->
+    </ul>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <div class="d-flex justify-content-between">
+        <h1>Edit Project</h1>
+
       </div>
-      <!-- End Page Title -->
-      
-      <section class="section dashboard">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="row">
-              <h1
-                id="editableProjectName"
-                class="outline-none col-12"
-                style="color: #012970"
-              >
-                <?php
-                  if (isset($project["name"]) && !empty($project["name"])) {
-                      echo $project["name"];
-                  } else {
-                      echo "Not Assigned";
-                  }
-                ?>
-                <button
-                  contenteditable="false"
-                  class="btn btn-link editableButton"
-                  data-target="#editableProjectName"
-                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Name"
-                >
-                  <i class="bx bx-edit fs-5 text-primary"></i>
-                </button>
-              </h1>
-              <p
-                id="editableProjectAddress1"
-                class="outline-none col-12 my-0 py-0"
-                style="color: #012970"
-              >
-                <?php
-                  if (isset($project["addressOne"]) && !empty($project["addressOne"])) {
-                      echo $project["addressOne"];
-                  } else {
-                      echo "Not Assigned";
-                  }
-                ?>
-                <button
-                  contenteditable="false"
-                  class="btn btn-link editableButton"
-                  data-target="#editableProjectAddress1"
-                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Address One"
-                >
-                  <i class="bx bx-edit fs-5 text-primary"></i>
-                </button>
-              </p>
-              <p
-                id="editableProjectAddress1"
-                class="outline-none col-12 my-0 py-0"
-                style="color: #012970"
-              >
-                <?php
-                  if (isset($project["addressTwo"]) && !empty($project["addressTwo"])) {
-                      echo $project["addressTwo"];
-                  } else {
-                      echo "Not Assigned";
-                  }
-                ?>
-                <button
-                  contenteditable="false"
-                  class="btn btn-link editableButton"
-                  data-target="#editableProjectAddress1"
-                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Address Two"
-                >
-                  <i class="bx bx-edit fs-5 text-primary"></i>
-                </button>
-              </p>
-            </div>
-            <div class="d-flex">
-              <p id="cityName" class="outline-none" style="color: #012970">
-                <?php
-                  if (isset($project["city"]) && !empty($project["city"])) {
-                      echo $project["city"];
-                  } else {
-                      echo "Not Assigned";
-                  }
-                ?>
-                <button
-                  contenteditable="false"
-                  class="btn btn-link editableButton"
-                  data-target="#cityName"
-                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="City"
-                >
-                  <i class="bx bx-edit fs-5 text-primary"></i>
-                </button>
-              </p>
-              <p id="stateName" class="outline-none" style="color: #012970">
-                <?php
-                  if (isset($project["state"]) && !empty($project["state"])) {
-                      echo $project["state"];
-                  } else {
-                      echo "Not Assigned";
-                  }
-                ?>
-                <button
-                  contenteditable="false"
-                  class="btn btn-link editableButton"
-                  data-target="#stateName"
-                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="State"
-                >
-                  <i class="bx bx-edit fs-5 text-primary"></i>
-                </button>
-              </p>
-              <p id="postalCode" class="outline-none" style="color: #012970">
-                <?php
-                  if (isset($project["postalCode"]) && !empty($project["postalCode"])) {
-                      echo $project["postalCode"];
-                  } else {
-                      echo "Not Assigned";
-                  }
-                ?>
-                <button
-                  contenteditable="false"
-                  class="btn btn-link editableButton"
-                  data-target="#postalCode"
-                  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Postal Code"
-                >
-                  <i class="bx bx-edit fs-5 text-primary"></i>
-                </button>
-              </p>
-            </div>
-            <!-- Project Users -->
-            <div class="row">
-              <div class="col-12">
-                <div class="card recent-sales overflow-auto">
-                  <div class="card-body">
-                    <h2 class="card-title fs-2">
-                      Users <span>| 
-                        <?php
-                          echo countProjectUsers(trim($project['id']));
-                        ?>
-                      </span>
-                      <button
-                        id="addUserToProjectButton"
-                        class="btn btn-link"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addUserToProject"
-                      >
-                        <i class="bx bxs-plus-square fs-4"></i>
-                      </button>
-                    </h2>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Projects</li>
+          <li class="breadcrumb-item active">
+            <?php
+            if (isset($project["name"]) && !empty($project["name"])) {
+              echo $project["name"];
+            } else {
+              echo "Not Assigned";
+            }
+            ?>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
 
-                    <table class="table table-borderless table-hover datatable">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Info</th>
-                          <th scope="col">Last Activity</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <h1 id="editableProjectName" class="outline-none col-12" style="color: #012970">
+              <?php
+              if (isset($project["name"]) && !empty($project["name"])) {
+                echo $project["name"];
+              } else {
+                echo "Not Assigned";
+              }
+              ?>
+              <button contenteditable="false" class="btn btn-link editableButton" data-target="#editableProjectName"
+                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Name">
+                <i class="bx bx-edit fs-5 text-primary"></i>
+              </button>
+            </h1>
+            <p id="editableProjectAddress1" class="outline-none col-12 my-0 py-0" style="color: #012970">
+              <?php
+              if (isset($project["addressOne"]) && !empty($project["addressOne"])) {
+                echo $project["addressOne"];
+              } else {
+                echo "Not Assigned";
+              }
+              ?>
+              <button contenteditable="false" class="btn btn-link editableButton" data-target="#editableProjectAddress1"
+                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Address One">
+                <i class="bx bx-edit fs-5 text-primary"></i>
+              </button>
+            </p>
+            <p id="editableProjectAddress1" class="outline-none col-12 my-0 py-0" style="color: #012970">
+              <?php
+              if (isset($project["addressTwo"]) && !empty($project["addressTwo"])) {
+                echo $project["addressTwo"];
+              } else {
+                echo "Not Assigned";
+              }
+              ?>
+              <button contenteditable="false" class="btn btn-link editableButton" data-target="#editableProjectAddress1"
+                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Project Address Two">
+                <i class="bx bx-edit fs-5 text-primary"></i>
+              </button>
+            </p>
+          </div>
+          <div class="d-flex">
+            <p id="cityName" class="outline-none" style="color: #012970">
+              <?php
+              if (isset($project["city"]) && !empty($project["city"])) {
+                echo $project["city"];
+              } else {
+                echo "Not Assigned";
+              }
+              ?>
+              <button contenteditable="false" class="btn btn-link editableButton" data-target="#cityName"
+                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="City">
+                <i class="bx bx-edit fs-5 text-primary"></i>
+              </button>
+            </p>
+            <p id="stateName" class="outline-none" style="color: #012970">
+              <?php
+              if (isset($project["state"]) && !empty($project["state"])) {
+                echo $project["state"];
+              } else {
+                echo "Not Assigned";
+              }
+              ?>
+              <button contenteditable="false" class="btn btn-link editableButton" data-target="#stateName"
+                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="State">
+                <i class="bx bx-edit fs-5 text-primary"></i>
+              </button>
+            </p>
+            <p id="postalCode" class="outline-none" style="color: #012970">
+              <?php
+              if (isset($project["postalCode"]) && !empty($project["postalCode"])) {
+                echo $project["postalCode"];
+              } else {
+                echo "Not Assigned";
+              }
+              ?>
+              <button contenteditable="false" class="btn btn-link editableButton" data-target="#postalCode"
+                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Postal Code">
+                <i class="bx bx-edit fs-5 text-primary"></i>
+              </button>
+            </p>
+          </div>
+          <!-- Project Users -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-header">
+                  <h2 class="card-title fs-2">Location</h2>
+                </div>
+                <div class="card-body">
+                  <?php
+                  echo '<div class="card-footer d-flex justify-content-start"> 
+                          <button id="marker-location-btn" class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . '  data-bs-target="#pointMapModal" data-bs-toggle="modal" data-url="../../../api/get_project_markers.php">
+                            <i class="bx bx-map fs-5 "></i>
+                          </button>
+                          <button id="geofence-location-btn" class="btn btn-primary ms-2  px-2 py-1 text-light" data-project-id=' . $project['id'] . ' data-bs-target="#geofenceModal" data-url="../../../api/get_geofence_project.php" data-bs-toggle="modal">
+                            <i class="bx bx-shape-polygon fs-5" ></i>
+                          </button>
+                        </div>';
+                  ?>
+                </div>
+              </div>
+              <div class="card recent-sales overflow-auto">
+                <div class="card-header">
+                  <h2 class="card-title fs-2">
+                    Users <span>|
+                      <?php
+                      echo countProjectUsers(trim($project['id']));
+                      ?>
+                    </span>
+                </div>
+                <div class="card-body">
 
-                          $users = getProjectUsers(trim($project['id']));
-                          foreach( $users as $user){
-                            echo '<tr>
-                          <th scope="row"><a href="#">#'.$user['id'].'</a></th>
+                  <button id="addUserToProjectButton" class="btn btn-link" data-bs-toggle="modal"
+                    data-bs-target="#addUserToProject">
+                    <i class="bx bxs-plus-square fs-4"></i>
+                  </button>
+                  </h2>
+
+                  <table class="table table-borderless table-hover datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Info</th>
+                        <th scope="col">Last Activity</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+
+                      $users = getProjectUsers(trim($project['id']));
+                      foreach ($users as $user) {
+                        echo '<tr>
+                          <th scope="row"><a href="#">#' . $user['id'] . '</a></th>
                           <td>
                             <a
                               href="#"
                               class="text-primary text-decoration-underline"
                             >
-                            '.$user['fullName'].'
+                            ' . $user['fullName'] . '
                             </a>
                             
                           </td>
                           <td>
                             <div class="">
                               <i class="bx bx-envelope"></i>
-                              '.$user['email'].'
+                              ' . $user['email'] . '
                             </div>
                             <div class="">
                               <i class="bx bx-envelope"></i>
-                              '.$user['phoneNumber'].'
+                              ' . $user['phoneNumber'] . '
                             </div>
                           </td>
                           <td>
-                          '.convertTime($user['lastActivity']).'
+                          ' . convertTime($user['lastActivity']) . '
                           </td>
                           <td>
                             <div class="d-flex">
@@ -527,62 +453,50 @@
                                 class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                               >
                                 <li>
-                                  <a class="dropdown-item delete-project-user" style="cursor: pointer;" data-project-id="'.trim($project['id']).'" data-user-id="'.$user['id'].'">Delete</a>
+                                  <a class="dropdown-item delete-project-user" style="cursor: pointer;" data-project-id="' . trim($project['id']) . '" data-user-id="' . $user['id'] . '">Delete</a>
                                 </li>
                               </ul>
                             </div>
                           </td>
                         </tr>';
-                          }
-                          
-                        
-                        ?>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="card overflow-auto">
-                  <div id="image-preview" class="card-header d-flex justify-content-center ">
-                    
-                  </div>
-                  <div class="card-body">
-                    <h2 class="card-title fs-2">Photos <span>| 15</span></h2>
-                    <div
-                      class="d-flex justify-content-center flex-column align-items-center"
-                    >
-                      <div
-                        class="col-8 d-flex justify-content-center align-items-center border rounded-3 position-relative"
-                        style="height: 300px"
-                      >
-                        <i
-                          id="upload-icon"
-                          class="bx bx-image-add opacity-50"
-                          style="font-size: 80px"
-                        ></i>
-                        <input
-                          type="file"
-                          class="position-absolute w-100 h-100 opacity-0"
-                          style="cursor: pointer; height: 300px"
-                          name=""
-                          id="project-image"
-                        />
-                      </div>
-                      <?php
-                        echo '<button id="upload-project-photo" class="btn btn-primary col-4 mt-3" data-project-id="'.$project['id'].'">Upload</button>'
+                      }
+
+
                       ?>
-                    </div>
-                  </div>
-                  
+                    </tbody>
+                  </table>
                 </div>
-                <div class="card-footer row">
-                     <?php
-                      $dateImages = getProjectImages(trim($project['id']));
-                      foreach($dateImages as $dateTime => $dateImage){
-                        echo '<div class="col-12">
-                                <h2 class="card-title fs-4 col-12">'.date("j F, Y", strtotime($dateTime)).'</h2>
+              </div>
+              <div class="card overflow-auto">
+                <div id="image-preview" class="card-header d-flex justify-content-center ">
+
+                </div>
+                <div class="card-body">
+                  <h2 class="card-title fs-2">Photos <span>| 15</span></h2>
+                  <div class="d-flex justify-content-center flex-column align-items-center">
+                    <div
+                      class="col-8 d-flex justify-content-center align-items-center border rounded-3 position-relative"
+                      style="height: 300px">
+                      <i id="upload-icon" class="bx bx-image-add opacity-50" style="font-size: 80px"></i>
+                      <input type="file" class="position-absolute w-100 h-100 opacity-0"
+                        style="cursor: pointer; height: 300px" name="" id="project-image" />
+                    </div>
+                    <?php
+                    echo '<button id="upload-project-photo" class="btn btn-primary col-4 mt-3" data-project-id="' . $project['id'] . '">Upload</button>'
+                      ?>
+                  </div>
+                </div>
+
+              </div>
+              <div class="card-footer row">
+                <?php
+                $dateImages = getProjectImages(trim($project['id']));
+                foreach ($dateImages as $dateTime => $dateImage) {
+                  echo '<div class="col-12">
+                                <h2 class="card-title fs-4 col-12">' . date("j F, Y", strtotime($dateTime)) . '</h2>
                                 <div class="col-12 row">';
-                        foreach($dateImage as $image){
-                          echo '<div class=" col-sm-5 col-md-4 col-lg-3 position-relative shadow-lg" style="min-height:200px; min-width: 200px;">
+                  foreach ($dateImage as $image) {
+                    echo '<div class=" col-sm-5 col-md-4 col-lg-3 position-relative shadow-lg" style="min-height:200px; min-width: 200px;">
                                     <div
                                       class="d-flex position-absolute z-3 px-3 py-2 end-0"
                                     >
@@ -593,19 +507,19 @@
                                         class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                                       >
                                         <li>
-                                          <a class="dropdown-item" href="../../photos/edit/?puid='.encode($image['id']).'"
+                                          <a class="dropdown-item" href="../../photos/edit/?puid=' . encode($image['id']) . '"
                                             >Edit</a
                                           >
                                         </li>
                                         <li>
-                                          <a class="dropdown-item text-danger remove-image-from-project" style="cursor: pointer;" data-project-id="'.trim($project['id']).'" data-photo-id="'.$image['id'].'">Delete</a>
+                                          <a class="dropdown-item text-danger remove-image-from-project" style="cursor: pointer;" data-project-id="' . trim($project['id']) . '" data-photo-id="' . $image['id'] . '">Delete</a>
                                         </li>
                                       </ul>
                                     </div>
                                   
                                     <img
                                     class="w-100 h-100"
-                                    src="'.$image['url'].'"
+                                    src="' . $image['url'] . '"
                                     alt=""
                                     />
                       
@@ -636,126 +550,175 @@
                                       />
                                     </a>
                                 </div>';
-                        }
-                        echo '</div>
+                  }
+                  echo '</div>
                         </div>';
-                      }
-                      
-                        
-                     ?>
-                    
-                  
+                }
+
+
+                ?>
+
+
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </main>
-    <!-- End #main -->
+    </section>
+  </main>
+  <!-- End #main -->
 
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-      <div class="copyright">
-        &copy; Copyright <strong><span>JLegacy-AI</span></strong
-        >. All Rights Reserved
-      </div>
-      <div class="credits">
-        Designed by <a href="https://github.com/JLegacy-AI">JLegacy-AI</a>
-      </div>
-    </footer>
-    <!-- End Footer -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>JLegacy-AI</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by <a href="https://github.com/JLegacy-AI">JLegacy-AI</a>
+    </div>
+  </footer>
+  <!-- End Footer -->
 
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
-    
-    <!-- End Sidebar-->
-    
-    <!-- Modals -->
-    <div
-      class="modal fade"
-      id="addUserToProject"
-      tabindex="-1"
-      aria-labelledby="addUserToProjectLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
-              Send Invite To User
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-            
-          </div>
-          <div class="modal-body">
-            <form
-              id="invite-user-form"
-              class="row g-3 needs-input-validation"
-              novalidate
-            >
-             <div class="col-12 position-relative dropdown">
-                <label for="username" class="form-label">Email or @Username</label>
-                <?php
-                  echo '<input
+
+  <!-- End Sidebar-->
+
+  <!-- Modals -->
+  <div class="modal fade" id="addUserToProject" tabindex="-1" aria-labelledby="addUserToProjectLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-0">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+            Send Invite To User
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+          <form id="invite-user-form" class="row g-3 needs-input-validation" novalidate>
+            <div class="col-12 position-relative dropdown">
+              <label for="username" class="form-label">Email or @Username</label>
+              <?php
+              echo '<input
                   id="username"
                   class="form-control dropdown-toggle"
                   type="text"
                   name="name"
-                  data-project-id="'.trim(decode($_GET["pid"])).'"
+                  data-project-id="' . trim(decode($_GET["pid"])) . '"
                   placeholder="Email or @Username"
                   required
                 />'
                 ?>
-                <ul id="user-menu-list" class="dropdown-menu">
-                  
-                </ul>
-              </div>
-              
-              <div class="col-12">
-                <button class="btn btn-primary w-100" type="submit">
-                  Send Invite
-                </button>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer justify-content-start">
-            <p class="text-muted" style="font-size: 12px;">User already Register use Username if not then enter email.</p>
-          </div>
+              <ul id="user-menu-list" class="dropdown-menu">
+
+              </ul>
+            </div>
+
+            <div class="col-12">
+              <button class="btn btn-primary w-100" type="submit">
+                Send Invite
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-start">
+          <p class="text-muted" style="font-size: 12px;">User already Register use Username if not then enter email.</p>
         </div>
       </div>
     </div>
+  </div>
+  <!-- Point Map Modal -->
+  <div class="modal fade" id="pointMapModal" aria-hidden="true" aria-labelledby="pointMapModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-nowrap " id="pointMapModalLabel">
+            <i class="bx bx-map fs-5 text-danger"></i> Location Map
+          </h1>
+          <input type="Text" class="form-control mx-3" id="addressSearch" placeholder="Address...">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body w-100 h-100">
+          <div id="locationMap" class="w-100 h-100"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="add-markers-location" data-url="../../../api/add_markers_location_project.php"
+            class="btn btn-primary">Add Locations</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Vendor JS Files -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/toastify-js"
-    ></script>
+  <!-- prettier-ignore -->
+  <script>(g => {
+      var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
+      b = b[c] || (b[c] = {});
+      var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {
+        await (a = m.createElement("script"));
+        e.set("libraries", [...r, 'places', 'drawing'] + ""); // Add 'places' to include the Places API
+        for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+        e.set("callback", c + ".maps." + q);
+        a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+        d[q] = f;
+        a.onerror = () => h = n(Error(p + " could not load."));
+        a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+        m.head.append(a);
+      }));
+      d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n));
+    })
+      ({ key: "AIzaSyA0iKmisEWJWWvZCCNem16Ii7aJS8_lo6o" });</script>
 
-    <!-- Main JS Files -->
-    <script src="../../../assets/js/main.js"></script>
-    <script src="../../../controllers/controller.js"></script>
-    <script src="../../../controllers/ajaxControllers.js"></script>
 
-  </body>
+  <!-- Vendor JS Files -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+  <!-- Geofence Map Modal -->
+  <div class="modal fade " id="geofenceModal" aria-hidden="true" aria-labelledby="geofenceModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-nowrap" id="geofenceModalLabel">
+            <i class="bx bx-shape-polygon fs-5 text-danger"></i> Geofence Map
+          </h1>
+          <input id="addressSearchGeofence" type="Text" class="form-control mx-3" placeholder="Address...">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body w-100 h-100">
+          <div id="info" style="position:absolute; color:red; font-family: Arial; height:200px; font-size: 12px;"></div>
+          <div id="geofenceMap" class="w-100 h-100"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="add-geofence-location" data-url="../../../api/add_geofence_project.php"
+            class="btn btn-primary">Add
+            Geofence Locations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JS Files -->
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../controllers/controller.js"></script>
+  <script src="../../../controllers/ajaxControllers.js"></script>
+  <script src="../../../controllers/locationMap.js"></script>
+  <script src="../../../controllers/polygonGeofenceMap.js"></script>
+  <style>
+    .pac-container {
+      z-index: 100000 !important;
+    }
+  </style>
+
+</body>
+
 </html>

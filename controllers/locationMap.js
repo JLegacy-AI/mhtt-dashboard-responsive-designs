@@ -76,8 +76,9 @@ $(document).ready(function () {
       markersLocation += marker.position.lat() + " " + marker.position.lng();
       if (index != markers.length - 1) markersLocation += ",";
     });
+    const url = $(this).data("url");
     $.ajax({
-      url: "../../api/add_markers_location_project.php",
+      url: url,
       method: "POST",
       data: {
         location: markersLocation,
@@ -115,8 +116,9 @@ $(document).ready(function () {
   $(".marker-location-btn").on("click", function () {
     const pId = $(this).data("project-id");
     projectId = pId;
+    const url = $(this).data("url");
     $.ajax({
-      url: "../../api/get_project_markers.php",
+      url: url,
       method: "POST",
       data: {
         projectId: pId,
