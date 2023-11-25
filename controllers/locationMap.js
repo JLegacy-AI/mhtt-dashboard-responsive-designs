@@ -1,6 +1,6 @@
 $(document).ready(function () {
   let map;
-  let markers = [];
+  var markers = [];
   let projectId;
 
   async function initMap() {
@@ -15,7 +15,6 @@ $(document).ready(function () {
     });
 
     map.addListener("click", (event) => {
-      console.log(markers);
       if (event.placeId == undefined) {
         addMarker(event.latLng);
       } else {
@@ -67,8 +66,6 @@ $(document).ready(function () {
       markers = markers.filter((m) => m !== marker);
     });
   };
-
-  initMap();
 
   $("#add-markers-location").click(function () {
     let markersLocation = "";
@@ -125,14 +122,23 @@ $(document).ready(function () {
       },
       success: (response) => {
         if (response["markers"] != 0) {
+          markers.forEach((marker) => {
+            marker.setMap(null);
+          });
           response["markers"].map((marker, i) => {
+            map.setCenter(
+              new google.maps.LatLng(
+                parseFloat(marker["lat"]),
+                parseFloat(marker["lng"])
+              )
+            );
+
             addMarker(marker);
           });
         }
       },
-      error: (error) => {
-        console.log(error);
-      },
+      error: (error) => {},
     });
   });
+  initMap();
 });

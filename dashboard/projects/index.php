@@ -416,7 +416,7 @@ if (checkToken($_SESSION["token"]) == null)
                               <button class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . ' data-url="../../api/get_project_markers.php" data-bs-target="#pointMapModal" data-bs-toggle="modal">
                                 <i class="bx bx-map fs-5 "></i>
                               </button>
-                              <button id="geofence-location-btn" class="btn btn-primary ms-2  px-2 py-1 text-light" data-project-id=' . $project['id'] . ' data-url="../../api/get_geofence_project.php" data-bs-target="#geofenceModal" data-bs-toggle="modal">
+                              <button class="btn btn-primary ms-2  px-2 py-1 text-light geofence-location-btn" data-project-id=' . $project['id'] . ' data-url="../../api/get_geofence_project.php" data-bs-target="#geofenceModal" data-bs-toggle="modal">
                                 <i class="bx bx-shape-polygon fs-5" ></i>
                               </button>
                             </div>
@@ -490,7 +490,7 @@ if (checkToken($_SESSION["token"]) == null)
       }));
       d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n));
     })
-      ({ key: "API_KEY" });</script>
+      ({ key: "AIzaSyA0iKmisEWJWWvZCCNem16Ii7aJS8_lo6o" });</script>
 
 
   <!-- Vendor JS Files -->

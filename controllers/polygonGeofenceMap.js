@@ -2,13 +2,17 @@ $(document).ready(function () {
   var mapOptions;
   var map;
 
+  var all_overlays = [];
+  var selectedShape;
+  var drawingManager;
   var coordinates = [];
   let new_coordinates = [];
   let lastElement;
-  let projectId;
+  var projectId;
   var geofence;
 
   async function InitMap() {
+    console.log("Geofence Loading..");
     const { Map } = await google.maps.importLibrary("maps");
 
     map = new Map(document.getElementById("geofenceMap"), {
@@ -35,9 +39,7 @@ $(document).ready(function () {
       map.setZoom(15);
     });
 
-    var all_overlays = [];
-    var selectedShape;
-    var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingManager = new google.maps.drawing.DrawingManager({
       //drawingMode: google.maps.drawing.OverlayType.MARKER,
       //drawingControl: true,
       drawingControlOptions: {
@@ -224,26 +226,27 @@ $(document).ready(function () {
           new google.maps.LatLng(coordinate["lat"], coordinate["lng"])
       );
     }
-    if (geofence.length > 0) {
+    if (geofence && geofence.length > 0) {
       const loadedCoordinates = parseGeofenceData(geofence);
       drawLoadedCoordinates(loadedCoordinates);
       geofence = [];
     }
   }
 
-  $("#geofence-location-btn").click(function () {
+  $(".geofence-location-btn").click(function () {
     projectId = $(this).data("project-id");
     const data = {
       projectId: projectId,
     };
+    console.log(projectId);
     const url = $(this).data("url");
     $.ajax({
       url: url,
       method: "GET",
       data: data,
       success: (response) => {
+        console.log("Yes DELETE");
         geofence = response["geofence"];
-        InitMap();
       },
       error: (error) => {
         Toastify({
@@ -257,7 +260,6 @@ $(document).ready(function () {
             background: "#4CAF50",
           },
         }).showToast();
-        InitMap();
       },
     });
   });
@@ -285,6 +287,7 @@ $(document).ready(function () {
       return;
     }
     const url = $(this).data("url");
+    console.log("Project ID: ", projectId);
     $.ajax({
       url: url,
       data: {
@@ -306,6 +309,7 @@ $(document).ready(function () {
         }).showToast();
       },
       error: (error) => {
+        console.log(error);
         Toastify({
           text: "🚩 Error Occured...",
           className: "error",
@@ -320,4 +324,5 @@ $(document).ready(function () {
       },
     });
   });
+  InitMap();
 });

@@ -142,7 +142,7 @@ function countProjectUsers($id)
 function getProjects($id)
 {
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM Projects WHERE user = ?");
+    $stmt = $conn->prepare("SELECT id, name, addressOne, addressTwo,ST_AsText(markers) as marks, ST_AsText(geofence) as geofence,city, lastActivity, state, postalCode, user   FROM Projects WHERE user = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
