@@ -11,6 +11,35 @@ $(document).ready(function () {
   var projectId;
   var geofence;
 
+  function clearSelection() {
+    if (selectedShape) {
+      selectedShape.setEditable(false);
+      selectedShape = null;
+    }
+  }
+  //to disable drawing tools
+  function stopDrawing() {
+    drawingManager.setMap(null);
+  }
+
+  function setSelection(shape) {
+    clearSelection();
+    stopDrawing();
+    selectedShape = shape;
+    shape.setEditable(true);
+    console.log("YesSELECTED");
+  }
+
+  function deleteSelectedShape() {
+    if (selectedShape) {
+      selectedShape.setMap(null);
+      drawingManager.setMap(map);
+      coordinates.splice(0, coordinates.length);
+      document.getElementById("info").innerHTML = "";
+      console.log("Yes DELETE");
+    }
+  }
+
   async function InitMap() {
     console.log("Geofence Loading..");
     const { Map } = await google.maps.importLibrary("maps");
@@ -79,36 +108,6 @@ $(document).ready(function () {
       },
     });
 
-    function clearSelection() {
-      if (selectedShape) {
-        selectedShape.setEditable(false);
-        selectedShape = null;
-      }
-    }
-    //to disable drawing tools
-    function stopDrawing() {
-      drawingManager.setMap(null);
-      console.log("Yes STOP");
-    }
-
-    function setSelection(shape) {
-      clearSelection();
-      stopDrawing();
-      selectedShape = shape;
-      shape.setEditable(true);
-      console.log("YesSELECTED");
-    }
-
-    function deleteSelectedShape() {
-      if (selectedShape) {
-        selectedShape.setMap(null);
-        drawingManager.setMap(map);
-        coordinates.splice(0, coordinates.length);
-        document.getElementById("info").innerHTML = "";
-        console.log("Yes DELETE");
-      }
-    }
-
     function CenterControl(controlDiv, map) {
       // Set CSS for the control border.
       var controlUI = document.createElement("div");
@@ -135,7 +134,6 @@ $(document).ready(function () {
 
       //to delete the polygon
       controlUI.addEventListener("click", function () {
-        console.log("Yes OK");
         deleteSelectedShape();
       });
     }
@@ -204,36 +202,10 @@ $(document).ready(function () {
     map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
       centerControlDiv
     );
-
-    function drawLoadedCoordinates(loadedCoordinates) {
-      const polygon = new google.maps.Polygon({
-        paths: loadedCoordinates,
-        editable: true,
-        draggable: true,
-        fillColor: "#ADFF2F",
-        fillOpacity: 0.5,
-      });
-
-      // Add the polygon to the map
-      polygon.setMap(map);
-
-      // Set the loaded polygon as the selected shape
-      setSelection(polygon);
-    }
-    function parseGeofenceData(geofenceData) {
-      return geofenceData.map(
-        (coordinate) =>
-          new google.maps.LatLng(coordinate["lat"], coordinate["lng"])
-      );
-    }
-    if (geofence && geofence.length > 0) {
-      const loadedCoordinates = parseGeofenceData(geofence);
-      drawLoadedCoordinates(loadedCoordinates);
-      geofence = [];
-    }
   }
 
   $(".geofence-location-btn").click(function () {
+    selectedShape?.setMap(null);
     projectId = $(this).data("project-id");
     const data = {
       projectId: projectId,
@@ -245,10 +217,38 @@ $(document).ready(function () {
       method: "GET",
       data: data,
       success: (response) => {
-        console.log("Yes DELETE");
+        // selectedShape.setMap(null);
         geofence = response["geofence"];
+        if (geofence.length > 0) {
+          function drawLoadedCoordinates(loadedCoordinates) {
+            const polygon = new google.maps.Polygon({
+              paths: loadedCoordinates,
+              editable: true,
+              draggable: true,
+              fillColor: "#ADFF2F",
+              fillOpacity: 0.5,
+            });
+
+            // Add the polygon to the map
+            polygon.setMap(map);
+            setSelection(polygon);
+          }
+          function parseGeofenceData(geofenceData) {
+            return geofenceData.map(
+              (coordinate) =>
+                new google.maps.LatLng(coordinate["lat"], coordinate["lng"])
+            );
+          }
+          if (geofence && geofence.length > 0) {
+            const loadedCoordinates = parseGeofenceData(geofence);
+            drawLoadedCoordinates(loadedCoordinates);
+            geofence = [];
+          }
+        }
+        console.log(geofence);
       },
       error: (error) => {
+        // selectedShape.setMap(null);
         Toastify({
           text: "🚩 Geofence Not Found...",
           className: "error",
