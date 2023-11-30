@@ -362,26 +362,30 @@ $project = getProjectByID(trim(decode($_GET["pid"])));
               </button>
             </p>
           </div>
-          <!-- Project Users -->
-          <div class="row">
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
-                <div class="card-header">
-                  <h2 class="card-title fs-2">Location</h2>
-                </div>
-                <div class="card-body">
-                  <?php
-                  echo '<div class="card-footer d-flex justify-content-start"> 
-                          <button id="marker-location-btn" class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . '  data-bs-target="#pointMapModal" data-bs-toggle="modal" data-url="../../../api/get_project_markers.php">
+          <!-- Project Location  -->
+          <div class="col-12 row">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-header">
+                <h2 class="card-title fs-2">Location</h2>
+              </div>
+              <div class="card-body">
+                <?php
+                echo '<div class="card-footer d-flex justify-content-start"> 
+                          <button class="btn btn-primary px-2 py-1 text-light marker-location-btn" data-project-id=' . $project['id'] . '  data-bs-target="#pointMapModal" data-bs-toggle="modal" data-url="../../../api/get_project_markers.php">
                             <i class="bx bx-map fs-5 "></i>
                           </button>
-                          <button id="geofence-location-btn" class="btn btn-primary ms-2  px-2 py-1 text-light" data-project-id=' . $project['id'] . ' data-bs-target="#geofenceModal" data-url="../../../api/get_geofence_project.php" data-bs-toggle="modal">
+                          <button class="btn btn-primary ms-2  px-2 py-1 text-light geofence-location-btn" data-project-id=' . $project['id'] . ' data-bs-target="#geofenceModal" data-url="../../../api/get_geofence_project.php" data-bs-toggle="modal">
                             <i class="bx bx-shape-polygon fs-5" ></i>
                           </button>
                         </div>';
-                  ?>
-                </div>
+                ?>
               </div>
+            </div>
+          </div>
+
+          <!-- Project Users -->
+          <div class="row">
+            <div class="col-12">
               <div class="card recent-sales overflow-auto">
                 <div class="card-header">
                   <h2 class="card-title fs-2">

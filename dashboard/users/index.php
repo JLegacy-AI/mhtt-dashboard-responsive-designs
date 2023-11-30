@@ -4,6 +4,8 @@ include "../../includes/db_functions.php";
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
+if (checkToken($_SESSION["token"]) == null)
+  header("Location: ../../../");
 ?>
 
 
@@ -273,6 +275,7 @@ if (session_status() == PHP_SESSION_NONE) {
           <div class="row">
             <!-- Sales Card -->
             <?php
+
             $users = getAllEmployees(checkToken($_SESSION['token'])['user']);
             foreach ($users as $user) {
               echo '<div class="col-md-6 col-xl-4 col-sm-12">

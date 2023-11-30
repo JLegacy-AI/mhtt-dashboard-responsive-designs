@@ -4,6 +4,9 @@ include "../../../includes/db_functions.php";
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
+if (checkToken($_SESSION["token"]) == null)
+  header("Location: ../../../");
+
 $photoId = decode($_GET['puid']);
 $photo = getImageById($photoId);
 ?>

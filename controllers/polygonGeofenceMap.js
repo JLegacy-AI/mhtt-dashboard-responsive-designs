@@ -207,6 +207,7 @@ $(document).ready(function () {
   $(".geofence-location-btn").click(function () {
     selectedShape?.setMap(null);
     projectId = $(this).data("project-id");
+
     const data = {
       projectId: projectId,
     };
@@ -217,7 +218,6 @@ $(document).ready(function () {
       method: "GET",
       data: data,
       success: (response) => {
-        // selectedShape.setMap(null);
         geofence = response["geofence"];
         if (geofence.length > 0) {
           function drawLoadedCoordinates(loadedCoordinates) {
@@ -234,6 +234,9 @@ $(document).ready(function () {
             setSelection(polygon);
           }
           function parseGeofenceData(geofenceData) {
+            coordinates = geofenceData.map((coordinate) => {
+              return `${coordinate["lat"]},${coordinate["lng"]}`;
+            });
             return geofenceData.map(
               (coordinate) =>
                 new google.maps.LatLng(coordinate["lat"], coordinate["lng"])
@@ -245,7 +248,6 @@ $(document).ready(function () {
             geofence = [];
           }
         }
-        console.log(geofence);
       },
       error: (error) => {
         // selectedShape.setMap(null);
@@ -266,6 +268,7 @@ $(document).ready(function () {
 
   $("#add-geofence-location").on("click", function () {
     let cordination = "";
+
     coordinates.forEach((coordinate, index) => {
       console.log(index);
       cordination +=
@@ -286,6 +289,7 @@ $(document).ready(function () {
       }).showToast();
       return;
     }
+
     const url = $(this).data("url");
     console.log("Project ID: ", projectId);
     $.ajax({
